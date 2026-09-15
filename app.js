@@ -29,7 +29,86 @@ function calendarView(){let y=calCursor.getFullYear(),m=calCursor.getMonth(),fir
 function shopView(){return `<section class="card wide"><div class="card-head"><h2>Weekly staples</h2><span class="pill">Resets Sunday</span></div>${data.staples.map(x=>`<div class="item"><input class="check staple-check" data-id="${x.id}" type="checkbox" ${x.need?'checked':''}><div style="flex:1"><b>${x.name}</b><div class="meta">${x.need?'Need':'Have it'}</div></div><input class="qty" data-id="${x.id}" type="number" min="1" value="${x.qty}" style="width:55px"><div class="item-actions"><button class="mini edit-staple" data-id="${x.id}">Edit</button><button class="mini danger delete-staple" data-id="${x.id}">Delete</button></div></div>`).join('')}<div class="actions"><button id="addStaple">＋ Staple</button><button id="copyList" class="primary">Copy shopping list</button></div></section><section class="card"><h2>Ready for Instacart</h2>${data.staples.filter(x=>x.need).map(x=>`<div class="item">${x.name}${x.qty>1?` ×${x.qty}`:''}</div>`).join('')||'<p class="muted">Nothing needed yet.</p>'}</section>`}
 function mealPlanRows(){return [0,1,2,3,4,5,6].map(n=>{let d=addDays(n),day=new Date(d+'T12:00').toLocaleDateString([],{weekday:'short'});return `<div class="meal"><b>${day}</b> · ${data.mealPlan[d]||'Not planned'}</div>`}).join('')}
 function mealsView(){return `<section class="card wide"><h2>Plan the week</h2>${[0,1,2,3,4,5,6].map(n=>{let d=addDays(n),day=new Date(d+'T12:00').toLocaleDateString([],{weekday:'long'});return `<div class="item"><div style="width:90px"><b>${day}</b></div><select class="meal-select" data-date="${d}" style="flex:1;padding:8px;border-radius:9px;background:var(--bg);color:var(--text);border:1px solid var(--line)"><option value="">Not planned</option>${data.meals.map(m=>`<option ${data.mealPlan[d]===m.name?'selected':''}>${m.name}</option>`).join('')}</select></div>`}).join('')}</section><section class="card"><div class="card-head"><h2>Meal library</h2><button id="addMeal">＋</button></div>${data.meals.map(m=>`<div class="meal"><b>${m.name}</b><div class="meta">${m.ingredients}</div></div>`).join('')}</section>`}
-function moreView(){return `<section class="card"><h2>Kids</h2><div class="item"><span class="dot" style="background:${data.settings.richardColor}"></span><b>Richard</b><input class="color" data-person="Richard" type="color" value="${data.settings.richardColor}" style="margin-left:auto"></div><div class="item"><span class="dot" style="background:${data.settings.timothyColor}"></span><b>Timothy</b><input class="color" data-person="Timothy" type="color" value="${data.settings.timothyColor}" style="margin-left:auto"></div></section><section class="card"><h2>Custody schedule</h2><p>Friday 5:30 PM — kids go with Dad</p><p>Sunday 3:30 PM — kids return</p><p class="meta">Add a one-off custody event to override a specific day.</p><button id="custodyOverride">Adjust a day</button></section><section class="card"><h2>Sync</h2><p class="meta">This starter runs locally immediately. Follow SETUP.md to enable Supabase sync with the included secure Edge Function.</p><button id="lock">Lock this device</button></section>`}
+function moreView(){
+  return `
+    <section class="card">
+      <h2>Family</h2>
+
+      <div class="item">
+        <span class="dot" style="background:${data.settings.richardColor}"></span>
+        <b>Richard</b>
+        <input class="color" data-person="Richard" type="color"
+          value="${data.settings.richardColor}" style="margin-left:auto">
+      </div>
+
+      <div class="item">
+        <span class="dot" style="background:${data.settings.timothyColor}"></span>
+        <b>Timothy</b>
+        <input class="color" data-person="Timothy" type="color"
+          value="${data.settings.timothyColor}" style="margin-left:auto">
+      </div>
+
+      <div class="item">
+        <span class="dot" style="background:${data.settings.oliviaColor || '#a46f91'}"></span>
+        <b>Olivia</b>
+        <input class="color" data-person="Olivia" type="color"
+          value="${data.settings.oliviaColor || '#a46f91'}" style="margin-left:auto">
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card-head">
+        <h2>Payments</h2>
+        <button id="addPayment">＋ Payment</button>
+      </div>
+
+      ${data.payments.map(p => `
+        <div class="item">
+          <input
+            class="check payment-check"
+            data-id="${p.id}"
+            type="checkbox"
+            ${p.paid ? 'checked' : ''}
+          >
+
+          <div style="flex:1">
+            <b>${p.name}</b>
+            <div class="meta">
+              Due day ${p.day}${p.amount ? ` · $${p.amount}` : ''}
+            </div>
+          </div>
+
+          <div class="item-actions">
+            <button class="mini edit-payment" data-id="${p.id}">
+              Edit
+            </button>
+
+            <button class="mini danger delete-payment" data-id="${p.id}">
+              Delete
+            </button>
+          </div>
+        </div>
+      `).join('')}
+    </section>
+
+    <section class="card">
+      <h2>Custody schedule</h2>
+      <p>Friday 5:30 PM — kids go with Dad</p>
+      <p>Sunday 3:30 PM — kids return to Mom</p>
+      <p class="meta">
+        Use the colored custody bars on the calendar to adjust a specific day.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>Sync</h2>
+      <p class="meta">
+        Cloud sync is active across your Family Hub devices.
+      </p>
+      <button id="lock">Lock this device</button>
+    </section>
+  `;
+}
 function bind(){document.querySelectorAll('.custody-day').forEach(x=>x.onclick=()=>{let ds=x.dataset.date,cur=custodyForDate(ds);data.settings.custodyOverrides=data.settings.custodyOverrides||{};data.settings.custodyOverrides[ds]=cur.includes('Dad')&&!cur.includes('Mom')?'Mom':'Dad';save();render()});$('#prevMonth')&&($('#prevMonth').onclick=()=>{calCursor.setMonth(calCursor.getMonth()-1);render()});$('#nextMonth')&&($('#nextMonth').onclick=()=>{calCursor.setMonth(calCursor.getMonth()+1);render()});document.querySelectorAll('.edit-event').forEach(x=>x.onclick=()=>editEvent(+x.dataset.id));document.querySelectorAll('.delete-event').forEach(x=>x.onclick=()=>{if(confirm('Delete this event?')){data.events=data.events.filter(e=>e.id!=x.dataset.id);save();render()}});document.querySelectorAll('.edit-staple').forEach(x=>x.onclick=()=>{let e=data.staples.find(s=>s.id==x.dataset.id);if(!e)return;$('#modalTitle').textContent='Edit staple';$('#modalBody').innerHTML=`<div class="form-grid"><label class="field full">Item<input id="seName" value="${e.name||''}"></label><label class="field">Quantity<input id="seQty" type="number" min="1" value="${e.qty||1}"></label><label class="field">Status<select id="seNeed"><option value="true" ${e.need?'selected':''}>Need</option><option value="false" ${!e.need?'selected':''}>Have it</option></select></label></div><div class="modal-actions"><button type="button" class="danger" id="seDelete">Delete staple</button><button type="button" class="primary" id="seSave">Save changes</button></div>`;$('#modal').showModal();$('#seSave').onclick=()=>{e.name=$('#seName').value.trim();e.qty=+$('#seQty').value||1;e.need=$('#seNeed').value==='true';if(!e.name)return;save();$('#modal').close();render()};$('#seDelete').onclick=()=>{if(confirm('Delete this staple?')){data.staples=data.staples.filter(s=>s.id!=e.id);save();$('#modal').close();render()}}});document.querySelectorAll('.delete-staple').forEach(x=>x.onclick=()=>{if(confirm('Delete this staple?')){data.staples=data.staples.filter(e=>e.id!=x.dataset.id);save();render()}});document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>{view=b.dataset.go;render()});document.querySelectorAll('.task-check').forEach(x=>x.onchange=()=>{data.tasks.find(t=>t.id==x.dataset.id).done=x.checked;save();render()});document.querySelectorAll('.staple-check').forEach(x=>x.onchange=()=>{data.staples.find(t=>t.id==x.dataset.id).need=x.checked;save();render()});document.querySelectorAll('.qty').forEach(x=>x.onchange=()=>{data.staples.find(t=>t.id==x.dataset.id).qty=+x.value||1;save()});document.querySelectorAll('.meal-select').forEach(x=>x.onchange=()=>{data.mealPlan[x.dataset.date]=x.value;save();render()});document.querySelectorAll('.color').forEach(x=>x.onchange=()=>{data.settings[x.dataset.person.toLowerCase()+'Color']=x.value;save();render()});$('#addEvent')&&($('#addEvent').onclick=eventForm);$('#custodyOverride')&&($('#custodyOverride').onclick=eventForm);$('#addStaple')&&($('#addStaple').onclick=()=>simplePrompt('Add staple','Staple name',v=>{data.staples.push({id:Date.now(),name:v,qty:1,need:true});save();render()}));$('#addMeal')&&($('#addMeal').onclick=()=>simplePrompt('Add meal','Meal name',v=>{data.meals.push({id:Date.now(),name:v,ingredients:'',recipe:''});save();render()}));$('#copyList')&&($('#copyList').onclick=async()=>{let s=data.staples.filter(x=>x.need).map(x=>`${x.name}${x.qty>1?` x${x.qty}`:''}`).join('\n');await navigator.clipboard.writeText(s);alert('Shopping list copied.');});$('#lock')&&($('#lock').onclick=()=>{localStorage.removeItem('familyHubUnlocked');localStorage.removeItem('familyHubPin');sessionStorage.removeItem('familyHubPin');location.reload()})}
 function editEvent(id){let e=data.events.find(x=>x.id==id);if(!e)return;$('#modalTitle').textContent='Edit event';$('#modalBody').innerHTML=`<div class="form-grid"><label class="field full">Event name<input id="eeTitle" value="${e.title||''}"></label><label class="field">Child<select id="eePerson">${['Richard','Timothy','Olivia','Both'].map(x=>`<option ${e.person===x?'selected':''}>${x}</option>`).join('')}</select></label><label class="field">Type<select id="eeType">${['Practice','Game','School','Appointment','Custody','Homework','Other'].map(x=>`<option ${e.type===x?'selected':''}>${x}</option>`).join('')}</select></label><label class="field">Date<input id="eeDate" type="date" value="${e.date||''}"></label><label class="field">Start time<input id="eeTime" type="time" value="${e.time||''}"></label><label class="field">End time<input id="eeEnd" type="time" value="${e.end||''}"></label><label class="field">Leave by<input id="eeLeave" type="time" value="${e.leave||''}"></label><label class="field full">Location<input id="eeLocation" value="${e.location||''}"></label><label class="field full">What to bring / reminder<input id="eeBring" value="${e.bring||''}"></label><label class="field full">Notes<textarea id="eeNotes">${e.notes||''}</textarea></label></div><div class="modal-actions"><button type="button" class="danger" id="eeDelete">Delete event</button><button type="button" class="primary" id="eeSave">Save changes</button></div>`;$('#modal').showModal();$('#eeSave').onclick=()=>{e.title=$('#eeTitle').value.trim();e.person=$('#eePerson').value;e.type=$('#eeType').value;e.date=$('#eeDate').value;e.time=$('#eeTime').value;e.end=$('#eeEnd').value;e.leave=$('#eeLeave').value;e.location=$('#eeLocation').value.trim();e.bring=$('#eeBring').value.trim();e.notes=$('#eeNotes').value.trim();if(!e.title||!e.date)return;save();$('#modal').close();render()};$('#eeDelete').onclick=()=>{if(confirm('Delete this event?')){data.events=data.events.filter(x=>x.id!=id);save();$('#modal').close();render()}}}
 function simplePrompt(title,label,cb){let v=prompt(`${title}\n${label}:`);if(v&&v.trim())cb(v.trim())}
