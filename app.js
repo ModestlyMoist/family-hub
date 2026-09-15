@@ -117,7 +117,43 @@ function moreView(){
         </div>
       `).join('')}
     </section>
+<section class="card">
+  <div class="card-head">
+    <h2>Household & School</h2>
+    <button id="addTask">＋ Task</button>
+  </div>
 
+  ${data.tasks.map(t => `
+    <div class="item">
+      <input
+        class="check task-check"
+        data-id="${t.id}"
+        type="checkbox"
+        ${t.done ? 'checked' : ''}
+      >
+
+      <div style="flex:1">
+        <b>${t.name}</b>
+
+        <div class="meta">
+          ${t.due ? fmtDate(t.due) : 'No due date'}
+          ${t.repeat ? ` · ${t.repeat}` : ''}
+          ${t.category ? ` · ${t.category}` : ''}
+        </div>
+      </div>
+
+      <div class="item-actions">
+        <button class="mini edit-task" data-id="${t.id}">
+          Edit
+        </button>
+
+        <button class="mini danger delete-task" data-id="${t.id}">
+          Delete
+        </button>
+      </div>
+    </div>
+  `).join('')}
+</section>
     <section class="card">
       <h2>Custody schedule</h2>
       <p>Friday 5:30 PM — kids go with Dad</p>
