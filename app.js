@@ -52,7 +52,7 @@ function render(){
   resetPaymentsForNewMonth();
   refreshShoppingForNewWeek();
   resetRecurringTasks();
-  let now = new Date();$('#todayLabel').textContent=now.toLocaleDateString([],{weekday:'long',month:'long',day:'numeric'});let upcoming=data.events.filter(e=>e.date>=iso(now)).sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));let need=data.staples.filter(x=>x.need).length;$('#summary').textContent=`${upcoming.filter(e=>e.date===iso(now)).length} events today · ${data.payments.filter(p=>!p.paid).length} payments upcoming · ${need} groceries needed`; let root=$('#dashboard');root.innerHTML=view==='home'?home():view==='calendar'?calendarView():view==='tasks'?tasksView():view==='shop'?shopView():view==='meals'?mealsView():moreView();weather();bind()}
+  let now = new Date();$('#todayLabel').textContent=now.toLocaleDateString([],{weekday:'long',month:'long',day:'numeric'});let today=iso(now),todayEvents=eventsForDate(today).length,need=data.staples.filter(x=>x.need).length,dueChores=data.tasks.filter(t=>t.taskMode==='cycle'&&choreStatus(t).startsWith('Due now')).length;$('#summary').textContent=`${todayEvents} event${todayEvents===1?'':'s'} today · ${dueChores} chore${dueChores===1?'':'s'} due · ${need} grocer${need===1?'y':'ies'} needed`; let root=$('#dashboard');root.innerHTML=view==='home'?home():view==='calendar'?calendarView():view==='tasks'?tasksView():view==='shop'?shopView():view==='meals'?mealsView():moreView();weather();bind()}
 function dashboardDefaults(){return ['coming','weather','week','shopping','meals','payments','household']}
 function editDashboard(){data.settings=data.settings||{};data.settings.homeCards=data.settings.homeCards||{coming:true,weather:true,week:true,shopping:true,meals:true,payments:true,household:true};data.settings.homeOrder=data.settings.homeOrder||dashboardDefaults();let labels={coming:'Coming up',weather:'Weather',week:'Week at a glance',shopping:'Shopping',meals:'Meals this week',payments:'Payments',household:'Household'};let draw=()=>{$('#dashRows').innerHTML=data.settings.homeOrder.map((k,i)=>`<div class="item"><input type="checkbox" class="dash-card" data-card="${k}" ${data.settings.homeCards[k]!==false?'checked':''}><div style="flex:1"><b>${labels[k]}</b></div><button type="button" class="mini dash-up" data-i="${i}" ${i===0?'disabled':''}>↑</button><button type="button" class="mini dash-down" data-i="${i}" ${i===data.settings.homeOrder.length-1?'disabled':''}>↓</button></div>`).join('');document.querySelectorAll('.dash-up').forEach(x=>x.onclick=()=>{let i=+x.dataset.i,[v]=data.settings.homeOrder.splice(i,1);data.settings.homeOrder.splice(i-1,0,v);draw()});document.querySelectorAll('.dash-down').forEach(x=>x.onclick=()=>{let i=+x.dataset.i,[v]=data.settings.homeOrder.splice(i,1);data.settings.homeOrder.splice(i+1,0,v);draw()})};$('#modalTitle').textContent='Edit dashboard';$('#modalBody').innerHTML=`<p class="meta">Choose which cards appear on Home and use ↑ ↓ to change their order.</p><div id="dashRows"></div><div class="modal-actions"><span></span><button type="button" class="primary" id="dashSave">Save dashboard</button></div>`;draw();$('#modal').showModal();$('#dashSave').onclick=()=>{document.querySelectorAll('.dash-card').forEach(x=>data.settings.homeCards[x.dataset.card]=x.checked);save();$('#modal').close();render()}}
 function home(){let hc=(data.settings&&data.settings.homeCards)||{},order=(data.settings&&data.settings.homeOrder)||dashboardDefaults(),today=iso(new Date()),ev=[];for(let n=0;n<7;n++){let ds=addDays(n);eventsForDate(ds).forEach(e=>ev.push({...e,date:ds,occurrenceDate:ds}))}ev=ev.filter(e=>e.date>=today).sort((a,b)=>(a.date+(a.time||'')).localeCompare(b.date+(b.time||''))).slice(0,6);let cards={coming:()=>`<section class="card wide"><div class="card-head"><h2>Coming up</h2><span class="pill">Next 7 days</span></div>${ev.map(eventRow).join('')}</section>`,weather:()=>`<section class="card"><h2>Weather</h2><div class="weather-row"><div class="weather" data-weather="Las Vegas">Loading…</div><div class="weather" data-weather="Flagstaff">Loading…</div></div></section>`,week:()=>`<section class="card full"><div class="card-head"><h2>Week at a glance</h2><button data-go="calendar">Open calendar</button></div>${weekStrip()}</section>`,shopping:()=>`<section class="card"><div class="card-head"><h2>Shopping</h2><span class="pill">${data.staples.filter(x=>x.need).length} needed</span></div>${data.staples.filter(x=>x.need).slice(0,5).map(x=>`<div class="item">☐ <div>${x.name}${x.qty>1?` ×${x.qty}`:''}</div></div>`).join('')}<div class="actions"><button data-go="shop">Review staples</button></div></section>`,meals:()=>`<section class="card"><h2>Meals this week</h2>${mealPlanRows()}<div class="actions"><button data-go="meals">Plan week</button></div></section>`,payments:()=>`<section class="card"><h2>Payments</h2>${data.payments.filter(p=>!p.paid).slice(0,4).map(p=>`<div class="item"><div><b>${p.name}</b><div class="meta">Due ${p.day}${p.amount?` · $${p.amount}`:''}</div></div></div>`).join('')}</section>`,household:()=>`<section class="card"><h2>Household</h2>${data.tasks.slice(0,4).map(t=>`<div class="item"><input class="check task-check" data-id="${t.id}" type="checkbox" ${t.done?'checked':''}><div>${t.name}<div class="meta">${choreStatus(t)}</div></div></div>`).join('')}</section>`};return order.filter(k=>hc[k]!==false&&cards[k]).map(k=>cards[k]()).join('')}
@@ -131,42 +131,6 @@ function moreView(){
         </div>
       `).join('')}
     </section>
-<section class="card">
-  <div class="card-head">
-    <h2>Household & School</h2>
-    <button id="addTask">＋ Task</button>
-  </div>
-
-  ${data.tasks.map(t => `
-    <div class="item">
-      <input
-        class="check task-check"
-        data-id="${t.id}"
-        type="checkbox"
-        ${t.done ? 'checked' : ''}
-      >
-
-      <div style="flex:1">
-        <b>${t.name}</b>
-
-        <div class="meta">
-          ${choreStatus(t)}
-          ${t.category ? ` · ${t.category}` : ''}
-        </div>
-      </div>
-
-      <div class="item-actions">
-        <button class="mini edit-task" data-id="${t.id}">
-          Edit
-        </button>
-
-        <button class="mini danger delete-task" data-id="${t.id}">
-          Delete
-        </button>
-      </div>
-    </div>
-  `).join('')}
-</section>
     <section class="card">
       <h2>Custody schedule</h2>
       <p>Friday 5:30 PM — kids go with Dad</p>
@@ -177,7 +141,7 @@ function moreView(){
     </section>
 
     <section class="card">
-      <h2>Sync</h2>
+      <h2>App & Sync</h2>
       <p class="meta">
         Cloud sync is active across your Family Hub devices.
       </p>
