@@ -22,7 +22,8 @@ async function weather(){let places=[['Las Vegas',36.1716,-115.1391],['Flagstaff
 function refreshShoppingForNewWeek(){data.settings=data.settings||{};let now=new Date(),sun=new Date(now);sun.setHours(12,0,0,0);sun.setDate(now.getDate()-now.getDay());let week=iso(sun);if(!data.settings.shoppingWeek){data.settings.shoppingWeek=week;save();return}if(data.settings.shoppingWeek!==week){data.staples=data.staples.filter(x=>x.permanent!==false);data.staples.forEach(x=>{x.need=true});data.settings.shoppingWeek=week;save()}}
 function choreIntervalDays(t){return t.cycle==='Daily'?1:t.cycle==='Every 3 Days'?3:t.cycle==='Weekly'?7:0}
 function choreStatus(t){if(t.taskMode!=='cycle')return t.due?fmtDate(t.due):'No due date';let days=choreIntervalDays(t);if(!t.lastCompleted)return 'Due now · '+(t.cycle||'Chore');let last=new Date(t.lastCompleted+'T12:00'),today=new Date(iso(new Date())+'T12:00'),elapsed=Math.floor((today-last)/86400000),left=days-elapsed;if(left<=0)return 'Due now · '+t.cycle;if(elapsed===0)return 'Done today · '+t.cycle;return 'Due in '+left+' day'+(left===1?'':'s')+' · '+t.cycle}
-function resetRecurringTasks(){let today=iso(new Date()),changed=false;data.tasks.forEach(t=>{if(t.taskMode==='cycle'){let days=choreIntervalDays(t);if(t.lastCompleted&&days){let elapsed=Math.floor((new Date(today+'T12:00')-new Date(t.lastCompleted+'T12:00'))/86400000);if(elapsed>=days&&t.done){t.done=false;changed=true}}return}if(!t.repeat||t.repeat==='None'||!t.due||!t.done)return;let due=new Date(t.due+'T12:00'),now=new Date(today+'T12:00'),next=new Date(due);if(t.repeat==='Daily')next.setDate(next.getDate()+1);if(t.repeat==='Weekly')next.setDate(next.getDate()+7);if(t.repeat==='Monthly')next.setMonth(next.getMonth()+1);if(next<=now){while(next<=now){if(t.repeat==='Daily')next.setDate(next.getDate()+1);else if(t.repeat==='Weekly')next.setDate(next.getDate()+7);else if(t.repeat==='Monthly')next.setMonth(next.getMonth()+1)}t.due=iso(next);t.done=false;changed=true}});if(changed)save()}
+function normalizeData(){data.settings=data.settings||{};data.events=data.events||[];data.tasks=data.tasks||[];data.payments=data.payments||[];data.staples=data.staples||[];data.meals=data.meals||[];data.events.forEach(e=>{if(!e.repeat&&e.recurring==='weekly')e.repeat='Weekly';if(!e.repeat)e.repeat='None';if(!Array.isArray(e.excludedDates))e.excludedDates=[]});data.tasks.forEach(t=>{if(!t.category)t.category='Household';if(!t.assigned)t.assigned='Everyone';if(t.category==='Chore'&&t.taskMode!=='cycle'){t.taskMode='cycle';t.cycle=t.cycle||((t.repeat==='Weekly'||t.repeat==='Daily')?t.repeat:'Weekly');t.repeat='None';t.due=''}if(!t.taskMode)t.taskMode='dated'})}
+function resetRecurringTasks(){let today=iso(new Date()),changed=false;data.tasks.forEach(t=>{if(t.taskMode!=='cycle')return;let days=choreIntervalDays(t);if(t.lastCompleted&&days){let elapsed=Math.floor((new Date(today+'T12:00')-new Date(t.lastCompleted+'T12:00'))/86400000);if(elapsed>=days&&t.done){t.done=false;changed=true}}});if(changed)save()}
 function resetPaymentsForNewMonth(){
   data.settings = data.settings || {};
 
@@ -49,6 +50,7 @@ function resetPaymentsForNewMonth(){
   }
 }
 function render(){
+  normalizeData();
   resetPaymentsForNewMonth();
   refreshShoppingForNewWeek();
   resetRecurringTasks();
