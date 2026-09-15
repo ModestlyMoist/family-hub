@@ -74,7 +74,7 @@ function mealsView(){let planned=[0,1,2,3,4,5,6].filter(n=>data.mealPlan[addDays
 function moreView(){
   return `
     <section class="card">
-      <h2>Family</h2>
+      <div class="card-head"><div><h2>Family</h2><div class="meta">Colors used across events and calendars</div></div></div>
 
       <div class="item">
         <span class="dot" style="background:${data.settings.richardColor}"></span>
@@ -100,7 +100,7 @@ function moreView(){
 
     <section class="card">
       <div class="card-head">
-        <h2>Payments</h2>
+        <div><h2>Payments</h2><div class="meta">Monthly reminders reset after each new month begins</div></div>
         <button id="addPayment">＋ Payment</button>
       </div>
 
@@ -133,7 +133,7 @@ function moreView(){
       `).join('')}
     </section>
     <section class="card">
-      <h2>Custody schedule</h2>
+      <div class="card-head"><div><h2>Custody schedule</h2><div class="meta">Default weekly schedule</div></div><button id="openCalendarFromMore">Calendar</button></div>
       <p>Friday 5:30 PM — kids go with Dad</p>
       <p>Sunday 3:30 PM — kids return to Mom</p>
       <p class="meta">
@@ -150,7 +150,7 @@ function moreView(){
     </section>
   `;
 }
-function bind(){document.querySelectorAll('.task-filter').forEach(x=>x.onclick=()=>{taskFilter=x.dataset.filter;render()});$('#calendarMonth')&&($('#calendarMonth').onclick=()=>{calendarMode='month';render()});$('#calendarList')&&($('#calendarList').onclick=()=>{calendarMode='list';render()});document.querySelectorAll('.cal-event').forEach(x=>{x.onclick=()=>openCalendarEvent(Number(x.dataset.id),x.dataset.date)});document.querySelectorAll('.meal-shop').forEach(x=>{x.onclick=()=>mealToShopping(Number(x.dataset.id))});document.querySelectorAll('.edit-meal').forEach(x=>{x.onclick=()=>editMeal(Number(x.dataset.id))});document.querySelectorAll('.delete-meal').forEach(x=>{x.onclick=()=>{if(confirm('Delete this meal?')){data.meals=data.meals.filter(m=>m.id!=x.dataset.id);save();render()}}});document.querySelectorAll('.edit-task').forEach(x => {
+function bind(){$('#openCalendarFromMore')&&($('#openCalendarFromMore').onclick=()=>{view='calendar';calendarMode='month';render()});document.querySelectorAll('.task-filter').forEach(x=>x.onclick=()=>{taskFilter=x.dataset.filter;render()});$('#calendarMonth')&&($('#calendarMonth').onclick=()=>{calendarMode='month';render()});$('#calendarList')&&($('#calendarList').onclick=()=>{calendarMode='list';render()});document.querySelectorAll('.cal-event').forEach(x=>{x.onclick=()=>openCalendarEvent(Number(x.dataset.id),x.dataset.date)});document.querySelectorAll('.meal-shop').forEach(x=>{x.onclick=()=>mealToShopping(Number(x.dataset.id))});document.querySelectorAll('.edit-meal').forEach(x=>{x.onclick=()=>editMeal(Number(x.dataset.id))});document.querySelectorAll('.delete-meal').forEach(x=>{x.onclick=()=>{if(confirm('Delete this meal?')){data.meals=data.meals.filter(m=>m.id!=x.dataset.id);save();render()}}});document.querySelectorAll('.edit-task').forEach(x => {
   x.onclick = () => editTask(Number(x.dataset.id));
 });
 
