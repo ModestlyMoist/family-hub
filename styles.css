@@ -2,3 +2,6 @@
 
 /* Calendar V1.1 */
 .calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}.cal-head{text-align:center;color:var(--muted);font-size:12px;padding:6px}.cal-day{min-height:105px;background:var(--bg);border-radius:12px;padding:7px;font-size:12px}.cal-day.other{opacity:.4}.custody-label{font-size:9px;min-height:22px}.cal-day .tag{font-size:10px}@media(max-width:600px){.calendar-grid{gap:2px}.cal-day{min-height:84px;padding:4px}.cal-head{font-size:10px;padding:3px}.custody-label{font-size:8px}.cal-day .tag{font-size:9px}}
+
+/* List controls V1.2 */
+.item-actions{margin-left:auto;display:flex;gap:5px;flex-wrap:wrap}.mini{padding:6px 8px;font-size:11px}.danger{color:#b34a4a}@media(max-width:600px){.item-actions{width:100%;margin-left:30px}}
