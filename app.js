@@ -19,7 +19,34 @@ function personColor(p){
 }
 function fmtDate(s){return new Date(s+'T12:00').toLocaleDateString([], {weekday:'short',month:'short',day:'numeric'})}
 async function weather(){let places=[['Las Vegas',36.1716,-115.1391],['Flagstaff',35.1983,-111.6513]];for(let [name,lat,lon] of places){try{let r=await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max&temperature_unit=fahrenheit&forecast_days=7&timezone=auto`),j=await r.json();let el=document.querySelector(`[data-weather="${name}"]`);if(el)el.innerHTML=`<b>${name}</b><div class="temp">${Math.round(j.current.temperature_2m)}°</div><div class="meta">H ${Math.round(j.daily.temperature_2m_max[0])}° · L ${Math.round(j.daily.temperature_2m_min[0])}° · ${j.daily.precipitation_probability_max[0]}% rain</div>`}catch{}}}
-function render(){let now=new Date();$('#todayLabel').textContent=now.toLocaleDateString([],{weekday:'long',month:'long',day:'numeric'});let upcoming=data.events.filter(e=>e.date>=iso(now)).sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));let need=data.staples.filter(x=>x.need).length;$('#summary').textContent=`${upcoming.filter(e=>e.date===iso(now)).length} events today · ${data.payments.filter(p=>!p.paid).length} payments upcoming · ${need} groceries needed`; let root=$('#dashboard');root.innerHTML=view==='home'?home():view==='calendar'?calendarView():view==='shop'?shopView():view==='meals'?mealsView():moreView();weather();bind()}
+function resetPaymentsForNewMonth(){
+  data.settings = data.settings || {};
+
+  const now = new Date();
+  const currentMonth =
+    now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0');
+
+  // First time this feature runs: remember the current month
+  // without changing any existing payment statuses.
+  if (!data.settings.paymentMonth) {
+    data.settings.paymentMonth = currentMonth;
+    save();
+    return;
+  }
+
+  // When a new month begins, reset all payment reminders.
+  if (data.settings.paymentMonth !== currentMonth) {
+    data.payments.forEach(payment => {
+      payment.paid = false;
+    });
+
+    data.settings.paymentMonth = currentMonth;
+    save();
+  }
+}
+function render(){
+  resetPaymentsForNewMonth();
+  let now = new Date();$('#todayLabel').textContent=now.toLocaleDateString([],{weekday:'long',month:'long',day:'numeric'});let upcoming=data.events.filter(e=>e.date>=iso(now)).sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));let need=data.staples.filter(x=>x.need).length;$('#summary').textContent=`${upcoming.filter(e=>e.date===iso(now)).length} events today · ${data.payments.filter(p=>!p.paid).length} payments upcoming · ${need} groceries needed`; let root=$('#dashboard');root.innerHTML=view==='home'?home():view==='calendar'?calendarView():view==='shop'?shopView():view==='meals'?mealsView():moreView();weather();bind()}
 function home(){let ev=data.events.filter(e=>e.date>=iso(new Date())).sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time)).slice(0,6);return `<section class="card wide"><div class="card-head"><h2>Coming up</h2><span class="pill">Next 7 days</span></div>${ev.map(eventRow).join('')}</section><section class="card"><h2>Weather</h2><div class="weather-row"><div class="weather" data-weather="Las Vegas">Loading…</div><div class="weather" data-weather="Flagstaff">Loading…</div></div></section><section class="card full"><div class="card-head"><h2>Week at a glance</h2><button data-go="calendar">Open calendar</button></div>${weekStrip()}</section><section class="card"><div class="card-head"><h2>Shopping</h2><span class="pill">${data.staples.filter(x=>x.need).length} needed</span></div>${data.staples.filter(x=>x.need).slice(0,5).map(x=>`<div class="item">☐ <div>${x.name}${x.qty>1?` ×${x.qty}`:''}</div></div>`).join('')}<div class="actions"><button data-go="shop">Review staples</button></div></section><section class="card"><h2>Meals this week</h2>${mealPlanRows()}<div class="actions"><button data-go="meals">Plan week</button></div></section><section class="card"><h2>Payments</h2>${data.payments.filter(p=>!p.paid).slice(0,4).map(p=>`<div class="item"><div><b>${p.name}</b><div class="meta">Due ${p.day}${p.amount?` · $${p.amount}`:''}</div></div></div>`).join('')}</section><section class="card"><h2>Household</h2>${data.tasks.slice(0,4).map(t=>`<div class="item"><input class="check task-check" data-id="${t.id}" type="checkbox" ${t.done?'checked':''}><div>${t.name}<div class="meta">${fmtDate(t.due)} · ${t.repeat}</div></div></div>`).join('')}</section>`}
 function eventRow(e){return `<div class="item"><span class="dot" style="background:${personColor(e.person)}"></span><div style="flex:1"><b>${e.title}</b><div class="meta">${fmtDate(e.date)} · ${e.time||''}${e.location?` · ${e.location}`:''}${e.leave?` · Leave ${e.leave}`:''}</div><div class="meta">${e.person} · ${e.type}</div></div><div class="item-actions"><button class="mini edit-event" data-id="${e.id}">Edit</button><button class="mini danger delete-event" data-id="${e.id}">Delete</button></div></div>`}
 function weekStrip(){return `<div class="week">${[0,1,2,3,4,5,6].map(n=>{let d=addDays(n),dt=new Date(d+'T12:00'),es=data.events.filter(e=>e.date===d);return `<div class="day"><b>${dt.toLocaleDateString([],{weekday:'short'})}<br>${dt.getDate()}</b>${es.map(e=>`<span class="tag" style="background:${personColor(e.person)}">${e.title}</span>`).join('')}</div>`}).join('')}</div>`}
