@@ -485,6 +485,22 @@ function eventForm(){
         <input id="neBring" placeholder="Cleats, water bottle, paperwork...">
       </label>
 
+      <label class="field">
+        Repeat
+        <select id="neRepeat">
+          <option value="None">Doesn't repeat</option>
+          <option>Daily</option>
+          <option>Weekly</option>
+          <option>Every 2 weeks</option>
+          <option>Monthly</option>
+        </select>
+      </label>
+
+      <label class="field">
+        Repeat until
+        <input id="neRepeatUntil" type="date">
+      </label>
+
       <label class="field full">
         Notes
         <textarea id="neNotes"></textarea>
