@@ -172,7 +172,34 @@ function moreView(){
     </section>
   `;
 }
-function bind(){document.querySelectorAll('.edit-payment').forEach(x => {
+function bind(){document.querySelectorAll('.edit-task').forEach(x => {
+  x.onclick = () => editTask(Number(x.dataset.id));
+});
+
+document.querySelectorAll('.delete-task').forEach(x => {
+  x.onclick = () => {
+    if (confirm('Delete this task?')) {
+      data.tasks = data.tasks.filter(t => t.id != x.dataset.id);
+      save();
+      render();
+    }
+  };
+});
+
+$('#addTask') && ($('#addTask').onclick = () => {
+  let t = {
+    id: Date.now(),
+    name: 'New task',
+    category: 'Household',
+    due: addDays(1),
+    repeat: 'None',
+    done: false,
+    notes: ''
+  };
+
+  data.tasks.push(t);
+  editTask(t.id);
+});document.querySelectorAll('.edit-payment').forEach(x => {
   x.onclick = () => editPayment(Number(x.dataset.id));
 });
 
@@ -277,6 +304,98 @@ function editPayment(id){
   $('#peDelete').onclick = () => {
     if (confirm('Delete this payment?')) {
       data.payments = data.payments.filter(x => x.id != id);
+      save();
+      $('#modal').close();
+      render();
+    }
+  };
+}
+function editTask(id){
+  let t = data.tasks.find(x => x.id == id);
+  if (!t) return;
+
+  $('#modalTitle').textContent = 'Edit task';
+
+  $('#modalBody').innerHTML = `
+    <div class="form-grid">
+
+      <label class="field full">
+        Task / reminder
+        <input id="teName" value="${t.name || ''}">
+      </label>
+
+      <label class="field">
+        Category
+        <select id="teCategory">
+          ${['Household','School','Chore','Sports','Reminder','Other']
+            .map(x => `<option ${t.category === x ? 'selected' : ''}>${x}</option>`)
+            .join('')}
+        </select>
+      </label>
+
+      <label class="field">
+        Due date
+        <input id="teDue" type="date" value="${t.due || ''}">
+      </label>
+
+      <label class="field">
+        Repeat
+        <select id="teRepeat">
+          ${['None','Daily','Weekly','Monthly']
+            .map(x => `<option ${t.repeat === x ? 'selected' : ''}>${x}</option>`)
+            .join('')}
+        </select>
+      </label>
+
+      <label class="field">
+        Status
+        <select id="teDone">
+          <option value="false" ${!t.done ? 'selected' : ''}>To do</option>
+          <option value="true" ${t.done ? 'selected' : ''}>Completed</option>
+        </select>
+      </label>
+
+      <label class="field full">
+        Notes
+        <textarea id="teNotes">${t.notes || ''}</textarea>
+      </label>
+
+    </div>
+
+    <div class="modal-actions">
+      <button type="button" class="danger" id="teDelete">
+        Delete task
+      </button>
+
+      <button type="button" class="primary" id="teSave">
+        Save changes
+      </button>
+    </div>
+  `;
+
+  $('#modal').showModal();
+
+  $('#teSave').onclick = () => {
+    t.name = $('#teName').value.trim();
+    t.category = $('#teCategory').value;
+    t.due = $('#teDue').value;
+    t.repeat = $('#teRepeat').value;
+    t.done = $('#teDone').value === 'true';
+    t.notes = $('#teNotes').value.trim();
+
+    if (!t.name) {
+      alert('Please enter a task name.');
+      return;
+    }
+
+    save();
+    $('#modal').close();
+    render();
+  };
+
+  $('#teDelete').onclick = () => {
+    if (confirm('Delete this task?')) {
+      data.tasks = data.tasks.filter(x => x.id != id);
       save();
       $('#modal').close();
       render();
