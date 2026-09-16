@@ -17,3 +17,5 @@
 
 /* Meal planning polish V1.6 */
 .meal-week{margin-top:14px}.meal-plan-row{display:grid;grid-template-columns:120px 1fr auto;gap:10px;align-items:center;padding:9px 0;border-top:1px solid var(--line)}.meal-plan-row:first-child{border-top:0}.meal-day{display:flex;flex-direction:column}.meal-day span{font-size:11px;color:var(--muted)}.meal-plan-row select{width:100%;padding:9px;border-radius:10px;background:var(--bg);color:var(--text);border:1px solid var(--line)}.meal-library{display:grid;gap:8px;margin-top:10px}.meal-library-card{padding:12px;border:1px solid var(--line);border-radius:14px;background:var(--bg)}@media(max-width:600px){.meal-plan-row{grid-template-columns:82px 1fr}.meal-plan-row .meal-day-shop{grid-column:2;width:max-content}.meal-library-card .card-head{display:block}.meal-library-card .item-actions{margin-top:8px;display:flex;flex-wrap:wrap;gap:5px}}
+
+.home-meal{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-top:1px solid var(--line)}.home-meal:first-of-type{border-top:0}.home-meal span{text-align:right;color:var(--muted)}
