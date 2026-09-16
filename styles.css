@@ -40,3 +40,6 @@ nav{grid-template-columns:repeat(7,1fr)}.habit-week{display:grid;grid-template-c
 
 /* Habit check-ins V2 */
 .habit-group+.habit-group{margin-top:13px}.habit-group-title{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:700;margin:4px 0}.checkin-group{padding-top:9px;border-top:1px dashed var(--line)}.checkin-row{background:color-mix(in srgb,var(--bg) 88%,var(--line) 12%);padding:7px 6px;border-radius:8px;margin:4px 0;border-top:0}.checkin-row:has(input:checked) span{text-decoration:none;color:var(--text)}
+
+/* GG Points V1 */
+.gg-total{grid-column:1/-1;display:flex;align-items:baseline;gap:10px;padding:12px 16px;border:1px solid var(--line);border-radius:14px;background:var(--card);margin-bottom:2px}.gg-total span{font-weight:700}.gg-total strong{font-size:28px}.gg-total small{color:var(--muted);margin-left:auto}.gg-home{display:flex;justify-content:space-between;align-items:baseline;padding:18px 0 12px}.gg-home span{color:var(--muted);font-weight:600}.gg-home strong{font-size:32px}@media(max-width:600px){.gg-total{flex-wrap:wrap}.gg-total small{width:100%;margin-left:0}}
