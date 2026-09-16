@@ -18,3 +18,6 @@
 #dashboard>.sports-page-full .sports-stats,
 #dashboard>.sports-page-full .sports-kids,
 #dashboard>.sports-page-full .sports-schedule-card{justify-self:stretch}
+
+/* Sports results + records v166a */
+.sport-record{display:flex;flex-direction:column;align-items:flex-end;gap:1px}.sport-record span{font-size:.62rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}.sport-record strong{font-size:1.15rem}.sport-result{font-size:.68rem;font-weight:800;padding:4px 7px;border-radius:99px;background:var(--line)}.sport-result.win{color:var(--accent)}.sport-result.loss{color:var(--muted)}.sport-result.tie{color:var(--text)}
