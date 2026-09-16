@@ -88,3 +88,6 @@ label.home-habit-row{grid-template-columns:20px 1fr;padding:5px 0}
 
 /* Recurrence scheduling V86 */
 .pick-days{display:flex;flex-wrap:wrap;gap:6px}.pick-days label{background:var(--bg);border:1px solid var(--line);border-radius:9px;padding:6px 8px;font-size:12px}.pick-days input{margin:0 3px 0 0}
+
+/* Task completion history - isolated checkpoint */
+.task-history-row{display:grid;grid-template-columns:24px 1fr;gap:8px;align-items:center;padding:9px 0;border-top:1px solid var(--line)}.task-history-row:first-of-type{border-top:0}.task-history-row>span{font-weight:800;color:var(--section-accent)}
