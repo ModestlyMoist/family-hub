@@ -22,3 +22,6 @@
 
 /* Calendar usability V1.7 */
 .cal-day.cal-today{outline:2px solid var(--text);outline-offset:-2px}.cal-day.cal-today>div:first-child b{background:var(--text);color:var(--card);border-radius:999px;min-width:24px;height:24px;display:inline-flex;align-items:center;justify-content:center}.cal-more{border:0;background:transparent;color:var(--muted);padding:3px 2px;font-size:10px;text-align:left;width:100%}.cal-more:hover{text-decoration:underline}
+
+/* Week at a glance V1.8 */
+.week-day{appearance:none;text-align:left;color:var(--text);font:inherit;cursor:pointer}.week-day:hover{transform:translateY(-1px)}.week-today{outline:2px solid var(--text);outline-offset:-2px}.week-custody{display:block;font-size:9px;color:var(--muted);margin:3px 0 5px}.week-day .tag{display:block;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.week-day .meta{display:block;margin-top:3px}
