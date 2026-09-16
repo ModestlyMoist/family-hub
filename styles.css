@@ -79,3 +79,6 @@ label.home-habit-row{grid-template-columns:20px 1fr;padding:5px 0}
 
 /* Household due/upcoming V82 */
 .household-columns{display:grid;grid-template-columns:1fr 1fr;gap:24px}.household-columns>div+div{border-left:1px solid var(--line);padding-left:24px}.household-columns h3,.household-other h3{margin:12px 0 6px}.household-other{border-top:1px solid var(--line);margin-top:16px;padding-top:4px}@media(max-width:700px){.household-columns{grid-template-columns:1fr;gap:10px}.household-columns>div+div{border-left:0;border-top:1px solid var(--line);padding-left:0;padding-top:8px}}
+
+/* Structured task areas V84 */
+.task-area{grid-column:1/-1;display:grid;grid-template-columns:repeat(12,1fr);gap:12px;padding:8px 0 18px;border-bottom:1px solid var(--line)}.task-area-head{grid-column:1/-1;display:flex;align-items:end;justify-content:space-between;padding:2px 4px}.task-area-head h2{margin:0;font-size:20px}.task-area-top{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:12px}.task-area-top .card{grid-column:auto}.task-area-top h3,.task-master h3{margin:0}.task-master{grid-column:1/-1}@media(max-width:700px){.task-area-top{grid-template-columns:1fr}.task-area{gap:10px}}
