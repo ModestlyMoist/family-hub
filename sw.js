@@ -1,4 +1,4 @@
-const C = 'family-hub-v135a';
+const C = 'family-hub-v136a';
 
 self.addEventListener('install', event => {
   self.skipWaiting();
@@ -20,7 +20,7 @@ self.addEventListener('install', event => {
         './recurring-tasks.css?v=130a',
         './wellness-history.css?v=134a',
         './debt.css?v=135a',
-        './app.js?v=135a',
+        './app.js?v=136a',
         './search.js?v=117a',
         './wellness.js?v=121a',
         './today2.js?v=129a',
