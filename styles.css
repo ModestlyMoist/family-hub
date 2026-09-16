@@ -106,3 +106,6 @@ label.home-habit-row{grid-template-columns:20px 1fr;padding:5px 0}
 
 /* Dedicated week-shopping action row */
 .meal-week-shopping-row{display:flex;align-items:center;gap:12px;margin:14px 0 6px;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--bg)}.meal-week-shopping-row .primary{flex:0 0 auto}@media(max-width:600px){.meal-week-shopping-row{align-items:flex-start;flex-direction:column}.meal-week-shopping-row .primary{width:100%}}
+
+/* Meals layout polish */
+.meal-plan-card{grid-column:span 5}.meal-library-card-wrap{grid-column:span 7}.meal-week-shopping-row{padding:8px 10px;margin:10px 0 4px;gap:9px}.meal-week-shopping-row .primary{min-height:34px;padding:7px 11px;font-size:12px}.meal-week-shopping-row .meta{font-size:11px}.meal-library-card-wrap .meal-library-card{padding:12px 14px}.meal-library-card-wrap .meal-library{gap:9px}@media(max-width:900px){.meal-plan-card,.meal-library-card-wrap{grid-column:1/-1}}@media(max-width:600px){.meal-week-shopping-row{padding:8px}.meal-week-shopping-row .primary{width:auto}}
