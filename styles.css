@@ -112,3 +112,6 @@ label.home-habit-row{grid-template-columns:20px 1fr;padding:5px 0}
 
 /* Dashboard task summary */
 .home-task-groups{display:grid;gap:8px;margin-top:8px}.home-task-group{padding:9px 10px;border-left:3px solid var(--section-accent);background:var(--bg);border-radius:9px}.home-task-household{--section-accent:#83a487}.home-task-school{--section-accent:#7183a3}.home-task-work{--section-accent:#b98a68}.home-task-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px}.home-task-row{display:grid;grid-template-columns:24px 1fr;gap:7px;align-items:center;padding:5px 0;border-top:1px solid var(--line)}.home-task-row:first-of-type{border-top:0}
+
+/* Dashboard meals tile polish */
+.home-meals-scroll{max-height:220px;overflow-y:auto;margin-top:6px;padding-right:3px}.home-meal-row{display:grid;grid-template-columns:80px 1fr;gap:12px;align-items:center;padding:9px 2px;border-top:1px solid var(--line)}.home-meal-row:first-child{border-top:0}.home-meal-row>div{display:flex;flex-direction:column;gap:1px}.home-meal-row>strong{font-size:14px;font-weight:700;min-width:0;overflow-wrap:anywhere}.home-meals-card .actions{margin-top:10px}
