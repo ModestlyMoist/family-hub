@@ -11,3 +11,10 @@
 .sports-kids .sport-kid{min-width:0}
 @media(min-width:900px){.sports-page-full{padding-left:22px;padding-right:22px}.sports-page-head{padding-left:4px;padding-right:4px}}
 @media(max-width:650px){.sports-page-full{padding-left:0;padding-right:0}}
+
+/* v161a: Sports is a direct child of the 12-column dashboard grid. Span the page. */
+#dashboard>.sports-page-full{grid-column:1/-1;width:100%;max-width:1180px;justify-self:center;margin:0 auto}
+#dashboard>.sports-page-full .sports-page-head,
+#dashboard>.sports-page-full .sports-stats,
+#dashboard>.sports-page-full .sports-kids,
+#dashboard>.sports-page-full .sports-schedule-card{justify-self:stretch}
