@@ -58,3 +58,6 @@ nav{grid-template-columns:repeat(7,1fr)}.habit-week{display:grid;grid-template-c
 
 /* Compact Home habit rows V3.1 */
 label.home-habit-row{grid-template-columns:20px 1fr;padding:5px 0}
+
+/* Scrollable Home habits V3.2 */
+.home-habits-scroll{max-height:190px;overflow-y:auto;padding-right:4px;scrollbar-width:thin}
