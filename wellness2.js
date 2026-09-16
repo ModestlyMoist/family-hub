@@ -31,13 +31,13 @@
     let cal='<div class="wellness2-calendar">'+rows.map(x=>'<div class="wellness2-day '+(x.p?'has-period ':'')+(x.pred?'predicted':'')+'"><b>'+fmt(x.d,{month:'short',day:'numeric'})+'</b><span>M '+(x.m||'—')+' · H '+x.h+'</span><span>'+(x.a?'💊 ':'')+(x.n?'Nausea ':'')+(x.p==='start'?'Period start':x.p==='end'?'Period end':x.p==='on'?'Period':x.pred?'Expected period':'')+'</span></div>').join('')+'</div>';
     return '<section class="card full wellness2-history"><div class="card-head"><div><h2>Wellness Compare</h2><div class="meta">Mood, smoking, anxiety meds, nausea and cycle data on one timeline</div></div><div class="wellness2-view"><button data-w2-mode="list" class="'+(mode==='list'?'active':'')+'">Compare</button><button data-w2-mode="calendar" class="'+(mode==='calendar'?'active':'')+'">Calendar</button></div></div><div class="wellness2-ranges">'+[['7','Week'],['30','Month'],['90','90 days'],['all','All']].map(x=>'<button data-w2-range="'+x[0]+'" class="'+(range===x[0]?'active':'')+'">'+x[1]+'</button>').join('')+'</div>'+stats+(mode==='calendar'?cal:list)+'</section>';
   }
-  function mount(){if(typeof view==='undefined'||view!=='habits')return;let dash=document.querySelector('#dashboard');if(!dash||dash.querySelector('.wellness2-card'))return;let mood=dash.querySelector('.mood-card');if(mood)mood.insertAdjacentHTML('afterend',todayPanel()+history());}
+  function mount(){if(!document.querySelector('#dashboard .mood-card'))return;let dash=document.querySelector('#dashboard');if(!dash||dash.querySelector('.wellness2-card'))return;let mood=dash.querySelector('.mood-card');if(mood)mood.insertAdjacentHTML('afterend',todayPanel()+history());}
   document.addEventListener('click',e=>{
     let b=e.target.closest?.('[data-w2-bool]');if(b){setBool(b.dataset.w2Bool);return}
     let p=e.target.closest?.('[data-period]');if(p){setPeriod(p.dataset.period);return}
     let r=e.target.closest?.('[data-w2-range]');if(r){range=r.dataset.w2Range;render();return}
     let m=e.target.closest?.('[data-w2-mode]');if(m){mode=m.dataset.w2Mode;render();return}
-    if(e.target.closest?.('[data-view="habits"]'))setTimeout(mount,0);
+    if(e.target.closest?.('[data-view="habits"],[data-view="today"]'))setTimeout(mount,0);
   });
   new MutationObserver(mount).observe(document.getElementById('dashboard'),{childList:true});
 })();
