@@ -70,3 +70,6 @@ label.home-habit-row{grid-template-columns:20px 1fr;padding:5px 0}
 
 /* Habit Summary ranges V6 */
 .summary-range{display:flex;justify-content:flex-end;gap:5px;margin:12px 0 4px}.summary-range-btn{padding:7px 12px}.summary-range-btn.active{background:var(--text);color:var(--card)}
+
+/* Family Hub usability pass V77 */
+.household-scroll{max-height:220px;overflow-y:auto;padding-right:4px;scrollbar-width:thin}.home-chore{cursor:pointer}.home-chore input{margin:0}.home-chore:hover{background:var(--bg)}
