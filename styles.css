@@ -109,3 +109,6 @@ label.home-habit-row{grid-template-columns:20px 1fr;padding:5px 0}
 
 /* Meals layout polish */
 .meal-plan-card{grid-column:span 5}.meal-library-card-wrap{grid-column:span 7}.meal-week-shopping-row{padding:8px 10px;margin:10px 0 4px;gap:9px}.meal-week-shopping-row .primary{min-height:34px;padding:7px 11px;font-size:12px}.meal-week-shopping-row .meta{font-size:11px}.meal-library-card-wrap .meal-library-card{padding:12px 14px}.meal-library-card-wrap .meal-library{gap:9px}@media(max-width:900px){.meal-plan-card,.meal-library-card-wrap{grid-column:1/-1}}@media(max-width:600px){.meal-week-shopping-row{padding:8px}.meal-week-shopping-row .primary{width:auto}}
+
+/* Dashboard task summary */
+.home-task-groups{display:grid;gap:8px;margin-top:8px}.home-task-group{padding:9px 10px;border-left:3px solid var(--section-accent);background:var(--bg);border-radius:9px}.home-task-household{--section-accent:#83a487}.home-task-school{--section-accent:#7183a3}.home-task-work{--section-accent:#b98a68}.home-task-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px}.home-task-row{display:grid;grid-template-columns:24px 1fr;gap:7px;align-items:center;padding:5px 0;border-top:1px solid var(--line)}.home-task-row:first-of-type{border-top:0}
