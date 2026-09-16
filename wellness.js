@@ -21,9 +21,9 @@
     const dateLabel=new Date(today+'T12:00').toLocaleDateString([],{month:'short',day:'numeric',year:'numeric'});
     return '<section class="card full mood-card wellness-card"><div class="wellness-tabs"><button type="button" class="wellness-tab '+(wellnessTab==='today'?'active':'')+'" data-wellness-tab="today">Today</button><button type="button" class="wellness-tab '+(wellnessTab==='summary'?'active':'')+'" data-wellness-tab="summary">Summary</button></div>'+
       (wellnessTab==='summary'?summary():
-      '<div class="wellness-today"><div class="card-head"><div><h2>End of day mood</h2><div class="meta">How did you feel today? · +0.05 GG for the first mood check-in</div></div><span class="pill">Today · '+esc(dateLabel)+(score?' · '+score+'/10':'')+'</span></div>'+
-      '<div class="mood-scale">'+Array.from({length:10},(_,i)=>i+1).map(n=>'<button class="mood-score '+(score===n?'active':'')+'" data-score="'+n+'" data-date="'+today+'">'+n+'</button>').join('')+'</div><div class="mood-labels"><span>Really hard day</span><span>Amazing day</span></div>'+
-      '<div class="smoking-tracker"><div><h3>Smoking tracker</h3><div class="meta">Hits taken today · '+esc(dateLabel)+'</div></div><div class="smoking-stepper"><button type="button" data-smoking-step="-1" aria-label="Decrease smoking hits">−</button><strong>'+hits+'</strong><button type="button" data-smoking-step="1" aria-label="Increase smoking hits">＋</button></div></div></div>')+
+      '<div class="wellness-today"><div class="smoking-tracker"><div><h3>Smoking tracker</h3><div class="meta">Hits taken today · '+esc(dateLabel)+'</div></div><div class="smoking-stepper"><button type="button" data-smoking-step="-1" aria-label="Decrease smoking hits">−</button><strong>'+hits+'</strong><button type="button" data-smoking-step="1" aria-label="Increase smoking hits">＋</button></div></div>'+
+      '<div class="mood-entry"><div class="card-head"><div><h2>End of day mood</h2><div class="meta">How did you feel today? · +0.05 GG for the first mood check-in</div></div><span class="pill">Today · '+esc(dateLabel)+(score?' · '+score+'/10':'')+'</span></div>'+
+      '<div class="mood-scale">'+Array.from({length:10},(_,i)=>i+1).map(n=>'<button class="mood-score '+(score===n?'active':'')+'" data-score="'+n+'" data-date="'+today+'">'+n+'</button>').join('')+'</div><div class="mood-labels"><span>Really hard day</span><span>Amazing day</span></div></div></div>')+
       '</section>';
   };
   document.addEventListener('click',e=>{
