@@ -49,3 +49,6 @@ nav{grid-template-columns:repeat(7,1fr)}.habit-week{display:grid;grid-template-c
 
 /* Drag reordering V1 */
 .sortable-row{cursor:grab}.sortable-row.dragging{opacity:.45}.drag-handle{display:inline-flex;align-items:center;justify-content:center;min-width:30px;min-height:30px;border-radius:8px;color:var(--muted);font-size:18px;cursor:grab;user-select:none;touch-action:none}.drag-handle:hover{background:var(--bg);color:var(--text)}.drag-handle:active,.sortable-row:active{cursor:grabbing}.habit-drag{margin-right:2px}
+
+/* Habits V2 summary */
+.habit-summary-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}.habit-summary-stats>div{padding:16px;border:1px solid var(--line);border-radius:14px;background:var(--bg);display:flex;flex-direction:column}.habit-summary-stats span,.habit-summary-stats small{color:var(--muted)}.habit-summary-stats strong{font-size:30px;margin:4px 0}@media(max-width:600px){.habit-summary-stats{grid-template-columns:1fr}.habit-summary-stats>div{padding:12px}.habit-summary-stats strong{font-size:24px}}
