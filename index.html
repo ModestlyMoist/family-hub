@@ -25,8 +25,17 @@
         if(gate)gate.classList.add('hidden');
         if(app)app.classList.remove('hidden');
         if(msg)msg.textContent='';
-        try{if(typeof window.render==='function')window.render()}catch(e){console.error('Family Hub render after bootstrap login:',e)}
-        setTimeout(function(){if(app&&app.classList.contains('hidden'))app.classList.remove('hidden')},0);
+        if(msg)msg.textContent='Loading Family Hub…';
+        setTimeout(function(){
+          if(typeof window.render==='function'){
+            try{window.render();if(msg)msg.textContent=''}
+            catch(e){console.error('Family Hub render after bootstrap login:',e);if(msg)msg.textContent='Family Hub loaded, but the dashboard hit an error.'}
+          }else{
+            if(msg)msg.textContent='Family Hub data loaded. Finishing app startup…';
+            setTimeout(function(){try{if(typeof window.render==='function')window.render()}catch(e){console.error(e)}},800);
+          }
+          if(app)app.classList.remove('hidden');
+        },250);
       }catch(err){
         if(msg)msg.textContent=err.message==='Invalid PIN'?'That PIN did not match.':'Could not connect. Check your internet and try again.';
       }
@@ -37,4 +46,4 @@
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bootLogin);else bootLogin();
 })();
 </script>
-<script src="app.js?v=143a"></script><script src="search.js?v=117a"></script><script src="wellness.js?v=121a"></script><script src="today2.js?v=129a"></script><script src="recurring-tasks.js?v=130a"></script><script src="wellness-history.js?v=133a"></script><script src="navfix.js?v=115a"></script></body></html>
+<script src="app.js?v=144a"></script><script src="search.js?v=117a"></script><script src="wellness.js?v=121a"></script><script src="today2.js?v=129a"></script><script src="recurring-tasks.js?v=130a"></script><script src="wellness-history.js?v=133a"></script><script src="navfix.js?v=115a"></script></body></html>
