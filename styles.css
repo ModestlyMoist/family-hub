@@ -31,3 +31,6 @@
 
 /* Compact Coming Up V2.0 */
 .coming-scroll{max-height:330px;overflow-y:auto;padding-right:4px;scrollbar-width:thin}.coming-scroll .item:last-child{border-bottom:0}@media(max-width:600px){.coming-scroll{max-height:300px}}
+
+/* Home shopping preview V2.1 */
+.home-shopping-row{display:grid;grid-template-columns:18px 1fr auto;gap:8px;align-items:center;padding:8px 0;border-top:1px solid var(--line)}.home-shopping-row:first-of-type{border-top:0}.home-shopping-row>b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.home-more{padding:8px 0 2px}
