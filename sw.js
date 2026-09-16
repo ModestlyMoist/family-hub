@@ -1,4 +1,4 @@
-const C = 'family-hub-v108a';
+const C = 'family-hub-v108b';
 
 self.addEventListener('install', event => {
   self.skipWaiting();
@@ -9,7 +9,7 @@ self.addEventListener('install', event => {
         './',
         './index.html',
         './styles.css?v=108a',
-        './app.js?v=108a',
+        './app.js?v=108b',
         './manifest.webmanifest'
       ])
     )
