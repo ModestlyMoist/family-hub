@@ -1,4 +1,4 @@
-const C = 'family-hub-v155a';
+const C = 'family-hub-v156a';
 
 self.addEventListener('install', event => {
   self.skipWaiting();
@@ -23,7 +23,7 @@ self.addEventListener('install', event => {
         './meals-shopping-polish.css?v=149a',
         './wellness2.css?v=154a',
         './meds.css?v=154a',
-        './sports.css?v=155a',
+        './sports.css?v=156a',
         './app.js?v=147a',
         './search.js?v=117a',
         './wellness.js?v=121a',
@@ -34,7 +34,7 @@ self.addEventListener('install', event => {
         './meals-shopping-polish.js?v=149a',
         './wellness2.js?v=154a',
         './meds.js?v=154a',
-        './sports.js?v=155a',
+        './sports.js?v=156a',
         './navfix.js?v=115a',
         './manifest.webmanifest'
       ])
