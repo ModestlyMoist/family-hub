@@ -100,3 +100,6 @@ label.home-habit-row{grid-template-columns:20px 1fr;padding:5px 0}
 
 /* Task progress ranges */
 .task-progress-ranges{display:flex;gap:6px;margin-top:10px}.task-progress-range{padding:6px 11px;font-size:12px}.task-progress-range.active{background:var(--accent);color:white;border-color:var(--accent)}.task-period-bars{height:160px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px;align-items:end;padding-top:10px}.task-period-bar{height:100%;display:grid;grid-template-rows:1fr auto auto;gap:4px;text-align:center}.task-period-bar b{font-size:13px}.task-period-bar span{font-size:10px;color:var(--muted)}
+
+/* Week to shopping visibility fix */
+.meal-week-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.meal-week-shopping{display:inline-flex!important;visibility:visible!important;opacity:1!important;white-space:nowrap}@media(max-width:650px){.meal-plan-header{align-items:flex-start;flex-direction:column}.meal-week-actions{width:100%;justify-content:space-between}.meal-week-shopping{min-height:36px}}
