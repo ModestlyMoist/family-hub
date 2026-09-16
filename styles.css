@@ -52,3 +52,6 @@ nav{grid-template-columns:repeat(7,1fr)}.habit-week{display:grid;grid-template-c
 
 /* Habits V2 summary */
 .habit-summary-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}.habit-summary-stats>div{padding:16px;border:1px solid var(--line);border-radius:14px;background:var(--bg);display:flex;flex-direction:column}.habit-summary-stats span,.habit-summary-stats small{color:var(--muted)}.habit-summary-stats strong{font-size:30px;margin:4px 0}@media(max-width:600px){.habit-summary-stats{grid-template-columns:1fr}.habit-summary-stats>div{padding:12px}.habit-summary-stats strong{font-size:24px}}
+
+/* Habits V3 dashboard actions */
+.gg-home{gap:18px}.gg-home>div{display:flex;flex-direction:column}.gg-home>div:last-child{text-align:right}.gg-home>div:last-child strong{font-size:22px}.gg-week{margin-left:auto;color:var(--muted)}.gg-week b{color:var(--text)}label.home-habit-row{grid-template-columns:20px 1fr auto;cursor:pointer}label.home-habit-row input{margin:0}label.home-habit-row small{color:var(--muted);white-space:nowrap}@media(max-width:600px){.gg-week{margin-left:0;width:auto}.gg-home{align-items:flex-end}}
