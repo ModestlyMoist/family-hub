@@ -75,6 +75,6 @@
     let score=e.target.closest?.('[data-sport-score]');if(score)scoreForm(+score.dataset.sportScore);
     let ed=e.target.closest?.('[data-sport-edit]');if(ed)form(+ed.dataset.sportEdit);
     let del=e.target.closest?.('[data-sport-delete]');if(del&&confirm('Delete this sports event?')){data.events=data.events.filter(x=>x.id!=+del.dataset.sportDelete);persist();open()}
-    let f=e.target.closest?.('[data-sport-filter]');if(f){document.querySelectorAll('[data-sport-filter]').forEach(x=>x.classList.toggle('active',x===f));document.querySelectorAll('.sports-schedule-card .sport-row').forEach(x=>{let who=x.dataset.sportPerson;x.hidden=f.dataset.sportFilter!=='All'&&who!==f.dataset.sportFilter&&who!=='Both'})}
+    let f=e.target.closest?.('[data-sport-filter]');if(f){let selected=f.dataset.sportFilter;document.querySelectorAll('.sports-schedule-card [data-sport-filter]').forEach(x=>x.classList.toggle('active',x.dataset.sportFilter===selected));document.querySelectorAll('.sports-schedule-card .sport-row').forEach(x=>{let who=x.getAttribute('data-sport-person');x.style.display=(selected==='All'||who===selected||who==='Both')?'':'none'})}
   });
 })();
