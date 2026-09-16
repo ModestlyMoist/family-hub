@@ -1,0 +1,19 @@
+/* Mobile bottom-nav alignment repair — v119a */
+@media (max-width: 600px){
+  .primary-nav{
+    align-items:center;
+  }
+  .primary-nav button{
+    align-self:center;
+    height:64px;
+    min-height:64px;
+    margin-top:0;
+    margin-bottom:0;
+  }
+  .primary-nav [data-action="add"]{
+    margin:0 4px !important;
+    height:72px;
+    min-height:72px;
+    transform:none;
+  }
+}
