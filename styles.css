@@ -73,3 +73,6 @@ label.home-habit-row{grid-template-columns:20px 1fr;padding:5px 0}
 
 /* Family Hub usability pass V77 */
 .household-scroll{max-height:220px;overflow-y:auto;padding-right:4px;scrollbar-width:thin}.home-chore{cursor:pointer}.home-chore input{margin:0}.home-chore:hover{background:var(--bg)}
+
+/* Household recurrence V78 */
+.chore-subhead{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:700;margin:16px 0 5px}.chore-row .pill{white-space:nowrap}.chore-history{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.history-row{display:grid;grid-template-columns:24px 1fr;gap:8px;align-items:center;padding:10px;border:1px solid var(--line);border-radius:11px}.history-row>span{font-weight:700}@media(max-width:650px){.chore-history{grid-template-columns:1fr}.chore-row .pill{display:none}}
