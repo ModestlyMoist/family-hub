@@ -55,3 +55,6 @@ nav{grid-template-columns:repeat(7,1fr)}.habit-week{display:grid;grid-template-c
 
 /* Habits V3 dashboard actions */
 .gg-home{gap:18px}.gg-home>div{display:flex;flex-direction:column}.gg-home>div:last-child{text-align:right}.gg-home>div:last-child strong{font-size:22px}.gg-week{margin-left:auto;color:var(--muted)}.gg-week b{color:var(--text)}label.home-habit-row{grid-template-columns:20px 1fr auto;cursor:pointer}label.home-habit-row input{margin:0}label.home-habit-row small{color:var(--muted);white-space:nowrap}@media(max-width:600px){.gg-week{margin-left:0;width:auto}.gg-home{align-items:flex-end}}
+
+/* Compact Home habit rows V3.1 */
+label.home-habit-row{grid-template-columns:20px 1fr;padding:5px 0}
