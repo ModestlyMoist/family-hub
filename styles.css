@@ -28,3 +28,6 @@
 
 /* Week card sizing V1.9 */
 .week{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px;align-items:stretch}.week-day{min-width:0;min-height:178px;padding:12px 10px;border-radius:14px;overflow:hidden;display:flex;flex-direction:column;align-items:stretch}.week-date{display:flex;flex-direction:column;gap:2px;min-height:42px}.week-date strong{font-size:14px}.week-date b{font-size:12px;white-space:nowrap}.week-custody{display:flex;align-items:center;gap:5px;min-height:20px;margin:3px 0 7px}.week-custody i{width:9px;height:9px;border-radius:50%;flex:none}.week-day .tag{width:100%;box-sizing:border-box;padding:5px 7px;border-radius:7px;font-size:11px;line-height:1.25}.week-day.week-today{background:color-mix(in srgb,var(--bg) 88%,#83a487 12%)}@media(max-width:800px){.week{display:flex;overflow-x:auto;gap:7px;scroll-snap-type:x proximity}.week-day{min-width:150px;min-height:165px;scroll-snap-align:start}}@media(min-width:801px){.week-day{width:auto!important}}
+
+/* Compact Coming Up V2.0 */
+.coming-scroll{max-height:330px;overflow-y:auto;padding-right:4px;scrollbar-width:thin}.coming-scroll .item:last-child{border-bottom:0}@media(max-width:600px){.coming-scroll{max-height:300px}}
