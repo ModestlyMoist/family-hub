@@ -18,6 +18,10 @@
     $('#saveSport').onclick=()=>{e.person=$('#spPerson').value;e.type=$('#spType').value;e.sport=$('#spSport').value.trim();e.team=$('#spTeam').value.trim();e.title=$('#spTitle').value.trim()||[e.sport,e.type].filter(Boolean).join(' ');e.date=$('#spDate').value;e.time=$('#spTime').value;e.end=$('#spEnd').value;e.leave=$('#spLeave').value;e.opponent=$('#spOpponent').value.trim();e.homeAway=$('#spHomeAway').value;e.location=$('#spLocation').value.trim();e.bring=$('#spBring').value.trim();e.season=$('#spSeason').value.trim();e.repeat=$('#spRepeat').value;e.notes=$('#spNotes').value.trim();e.sportEvent=true;e.excludedDates=e.excludedDates||[];if(!e.title||!e.date)return alert('Enter an event name and date.');if(fresh)data.events.push(e);persist();open()}
   }
   function inject(){let menu=document.querySelector('.more-menu');if(!menu||menu.querySelector('[data-sports-open]'))return;let groups=[...menu.querySelectorAll('.more-group')],plan=groups.find(g=>g.querySelector('.eyebrow')?.textContent.trim()==='PLAN'),grid=plan?.querySelector('.more-grid')||menu.querySelector('.more-grid');if(!grid)return;let b=document.createElement('button');b.type='button';b.className='more-destination';b.dataset.sportsOpen='1';b.innerHTML='<span class="more-icon">⚾</span><span><b>Sports</b><small>Practices, games & team schedules</small></span><i>›</i>';grid.appendChild(b)}
+  // More menu is rendered dynamically by the stable core. Observe the modal so Sports
+  // appears even when the core button handler replaces the menu after our click handler runs.
+  const sportsMenuObserver=new MutationObserver(()=>{try{inject()}catch(err){console.error('Sports menu injection',err)}});
+  const sportsModalBody=document.getElementById('modalBody');if(sportsModalBody)sportsMenuObserver.observe(sportsModalBody,{childList:true,subtree:true});
   document.addEventListener('click',e=>{
     if(e.target.closest?.('[data-action="more"]'))setTimeout(inject,0);
     if(e.target.closest?.('[data-sports-open]'))open();
