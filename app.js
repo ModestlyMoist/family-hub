@@ -455,7 +455,6 @@ function eventForm(){
 }
 $('#quickAdd').onclick=eventForm;$('#quickTask').onclick=()=>editTask(null);document.querySelectorAll('nav button[data-view]').forEach(b=>b.onclick=()=>{view=b.dataset.view;render()});document.querySelector('nav [data-action="add"]')?.addEventListener('click',openAddMenu);document.querySelector('nav [data-action="more"]')?.addEventListener('click',openMoreMenu);$('#editDashboard').onclick=editDashboard;
 if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js');
-,'Payments','more']]]];$('#modalTitle').textContent='Family Hub';$('#modalBody').innerHTML=`<div class="more-menu">${groups.map(g=>`<div class="more-group"><div class="eyebrow">${g[0]}</div><div class="more-grid">${g[1].map(x=>`<button type="button" class="more-destination" data-more-view="${x[2]}"><span>${x[0]}</span><b>${x[1]}</b></button>`).join('')}</div></div>`).join('')}<div class="more-future"><span>Coming later</span><b>Budget & Debt Payoff</b></div></div>`;$('#modal').showModal();document.querySelectorAll('[data-more-view]').forEach(x=>x.onclick=()=>{$('#modal').close();view=x.dataset.moreView;render()})}
 function render(){
   normalizeData();
   resetPaymentsForNewMonth();
@@ -858,5 +857,5 @@ function eventForm(){
     render();
   };
 }
-$('#quickAdd').onclick=eventForm;$('#quickTask').onclick=()=>editTask(null);document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{view=b.dataset.view;render()});$('#editDashboard').onclick=editDashboard;
+$('#quickAdd').onclick=eventForm;$('#quickTask').onclick=()=>editTask(null);document.querySelectorAll('nav button[data-view]').forEach(b=>b.onclick=()=>{view=b.dataset.view;render()});document.querySelector('nav [data-action="add"]')?.addEventListener('click',openAddMenu);document.querySelector('nav [data-action="more"]')?.addEventListener('click',openMoreMenu);$('#editDashboard').onclick=editDashboard;
 if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js');
