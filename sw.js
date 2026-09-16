@@ -1,4 +1,4 @@
-const C = 'family-hub-v94a';
+const C = 'family-hub-v95a';
 
 self.addEventListener('install', event => {
   self.skipWaiting();
@@ -8,8 +8,8 @@ self.addEventListener('install', event => {
       cache.addAll([
         './',
         './index.html',
-        './styles.css?v=94a',
-        './app.js?v=94a',
+        './styles.css?v=95a',
+        './app.js?v=95a',
         './manifest.webmanifest'
       ])
     )
