@@ -21,3 +21,10 @@
 
 /* Sports results + records v166a */
 .sport-record{display:flex;flex-direction:column;align-items:flex-end;gap:1px}.sport-record span{font-size:.62rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}.sport-record strong{font-size:1.15rem}.sport-result{font-size:.68rem;font-weight:800;padding:4px 7px;border-radius:99px;background:var(--line)}.sport-result.win{color:var(--accent)}.sport-result.loss{color:var(--muted)}.sport-result.tie{color:var(--text)}
+
+/* v169a compact kid cards: keep side-by-side wherever practical */
+.sports-kids{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+.sport-kid{min-height:0!important;padding:15px}
+.sport-kid .card-head{margin-bottom:8px}
+.sport-kid .sport-next{gap:2px}
+@media(max-width:520px){.sports-kids{gap:8px}.sport-kid{padding:11px;border-radius:16px}.sport-kid h2{font-size:.9rem!important}.sport-kid .eyebrow{font-size:.62rem}.sport-kid .sport-record strong{font-size:.9rem}.sport-kid .meta,.sport-kid .sport-bring{font-size:.65rem}.sport-kid .sport-bring{padding:5px 6px}}
