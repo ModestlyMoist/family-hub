@@ -1,6 +1,6 @@
 // Sports Hub — isolated module v155a
 (function(){
-  function ensure(){data.events=data.events||[];data.sportsTeams=data.sportsTeams||[];importRichardFall26()}
+  function ensure(){data.events=data.events||[];data.sportsTeams=data.sportsTeams||[];importRichardFall26();importTimothyFall26()}
   function minus45(t){let [h,m]=t.split(':').map(Number),n=h*60+m-45;n=(n+1440)%1440;return String(Math.floor(n/60)).padStart(2,'0')+':'+String(n%60).padStart(2,'0')}
   function importRichardFall26(){
     if(data.sportsImports?.richardFall26)return;
@@ -15,6 +15,31 @@
     ];
     games.forEach((g,i)=>{if(!data.events.some(e=>e.sportsImportKey==='richard-fall26-'+g[0]))data.events.push({id:1760000000000+i,title:'Richard Baseball Game',person:'Richard',type:'Game',date:g[0],time:g[1],end:'',location:'',leave:'',arrival:minus45(g[1]),bring:'Uniform, gear, water',notes:'',sport:'Baseball',team:'SSLL AA Mariners',season:'Fall 2026',opponent:g[2],homeAway:g[3],sportEvent:true,repeat:'None',repeatEnd:'',excludedDates:[],sportsImportKey:'richard-fall26-'+g[0]})});
     data.sportsImports.richardFall26=true;
+    if(typeof save==='function')save();
+  }
+  function importTimothyFall26(){
+    if(data.sportsImports?.timothyFall26)return;
+    data.sportsImports=data.sportsImports||{};
+    const games=[
+      ['2026-09-02','17:00','SSLL Teeball Majors Dodgers','Away'],
+      ['2026-09-10','12:00','Brewers','Away'],
+      ['2026-09-17','12:00','Pirates','Away'],
+      ['2026-09-19','12:00','Dodgers','Home'],
+      ['2026-09-21','17:00','A’s','Away'],
+      ['2026-09-23','17:00','Rangers','Home'],
+      ['2026-09-24','12:00','Yankees','Away'],
+      ['2026-09-26','12:00','Red Sox','Home'],
+      ['2026-09-28','17:00','Padres','Home'],
+      ['2026-09-30','17:00','Phillies','Away'],
+      ['2026-10-02','17:00','Dodgers','Away'],
+      ['2026-10-21','17:00','A’s','Away'],
+      ['2026-10-24','12:00','Yankees','Away'],
+      ['2026-10-28','17:00','Padres','Home'],
+      ['2026-11-04','17:00','Diamondbacks','Home'],
+      ['2026-11-07','12:00','Cubs','Home']
+    ];
+    games.forEach((g,i)=>{if(!data.events.some(e=>e.sportsImportKey==='timothy-fall26-'+g[0]))data.events.push({id:1761000000000+i,title:'Timothy Baseball Game',person:'Timothy',type:'Game',date:g[0],time:g[1],end:'',location:'',leave:'',arrival:minus45(g[1]),bring:'Uniform, gear, water',notes:'',sport:'Baseball',team:'SSLL Teeball Majors Giants',season:'Fall 2026',opponent:g[2],homeAway:g[3],sportEvent:true,repeat:'None',repeatEnd:'',excludedDates:[],sportsImportKey:'timothy-fall26-'+g[0]})});
+    data.sportsImports.timothyFall26=true;
     if(typeof save==='function')save();
   }
   function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
