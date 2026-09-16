@@ -1,0 +1,32 @@
+/* Mobile Today layout repair — v118a
+   Keep Today sections full-width on phones; desktop split remains in styles.css. */
+@media (max-width: 899px){
+  #dashboard:has(.today-plan){
+    display:grid;
+    grid-template-columns:minmax(0,1fr) !important;
+    gap:14px;
+  }
+  #dashboard:has(.today-plan) > .today-plan,
+  #dashboard:has(.today-plan) > .today-habits-long{
+    grid-column:1 / -1 !important;
+    width:100%;
+    min-width:0;
+  }
+  .today-plan .card-head,
+  .today-habits-long .card-head{
+    gap:10px;
+    flex-wrap:wrap;
+  }
+  .today-plan .item,
+  .today-habits-long .item,
+  .today-plan .today-row,
+  .today-habits-long .today-habit-row{
+    min-width:0;
+  }
+}
+@media (max-width: 520px){
+  .today-plan,.today-habits-long{padding:16px}
+  .today-plan .card-head h2,.today-habits-long .card-head h2{font-size:20px}
+  .today-plan .item-actions,.today-habits-long .item-actions{width:100%}
+  .today-plan .item-actions button,.today-habits-long .item-actions button{flex:1}
+}
