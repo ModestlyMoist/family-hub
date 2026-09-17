@@ -1,0 +1,14 @@
+// Calendar 2.0 — month view foundation v230a
+(function(){
+  function custodyName(c){return c.includes('→')?'Transition':c.includes('Dad')?'Dad':'Mom'}
+  function timeLabel(t){if(!t)return '';let [h,m]=t.split(':').map(Number),ap=h>=12?'PM':'AM',hr=h%12||12;return hr+(m?':'+String(m).padStart(2,'0'):'')+' '+ap}
+  function monthView(){
+    let y=calCursor.getFullYear(),m=calCursor.getMonth(),first=new Date(y,m,1),start=new Date(y,m,1-first.getDay()),cells='';
+    for(let i=0;i<42;i++){
+      let d=new Date(start);d.setDate(start.getDate()+i);let ds=iso(d),cust=custodyForDate(ds),cc=custodyColor(cust),es=eventsForDate(ds).slice().sort((a,b)=>schoolEventPriority(a)-schoolEventPriority(b)||(a.time||'99:99').localeCompare(b.time||'99:99'));
+      cells+=`<div class="cal-day ${d.getMonth()!==m?'other':''} ${ds===vegasToday()?'cal-today':''}" data-date="${ds}"><div class="custody-strip" style="background:${cc}"></div><div class="cal-date-row"><div class="cal-date-left"><b>${d.getDate()}</b><button class="custody-day custody-circle" data-date="${ds}" style="background:${cc}" title="Change custody · ${cust}" aria-label="Change custody for ${ds}"></button></div><span class="custody-short">${custodyName(cust)}</span></div><div class="cal-events">${es.slice(0,4).map(e=>`<button class="cal-event" data-id="${e.id}" data-date="${ds}" style="background:${calendarEventColor(e)}" title="${e.time?timeLabel(e.time)+' · ':''}${e.title}">${e.time?`<span class="cal-event-time">${timeLabel(e.time)}</span>`:''}${e.title}</button>`).join('')}${es.length>4?`<button class="cal-more" data-date="${ds}">+${es.length-4} more</button>`:''}</div></div>`;
+    }
+    return `<div class="calendar-grid">${['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map(x=>`<div class="cal-head">${x}</div>`).join('')}${cells}</div>`;
+  }
+  calendarView=function(){let month=monthView(),list=`<div>${calendarListOccurrences().map(eventRow).join('')||'<p class="muted">No upcoming events.</p>'}</div>`;return `<section class="card full calendar-v2"><div class="card-head"><div><h2>Family calendar</h2><div class="calendar-legend"><span><i style="background:${custodyColor('Mom')}"></i>Mom</span><span><i style="background:${custodyColor('Dad')}"></i>Dad</span><span><i style="background:${custodyColor('Dad → Mom 3:30')}"></i>Transition</span><span>Tap the circle beside a date to override custody</span></div></div><div class="actions"><button id="calendarMonth" class="${calendarMode==='month'?'primary':''}">Month</button><button id="calendarList" class="${calendarMode==='list'?'primary':''}">List</button>${calendarMode==='month'?'<button id="prevMonth">‹</button><b>'+calCursor.toLocaleDateString([],{month:'long',year:'numeric'})+'</b><button id="nextMonth">›</button><button id="calendarToday">Today</button>':''}<button id="addEvent">＋ Event</button></div></div>${calendarMode==='month'?month:list}</section>`};
+})();
