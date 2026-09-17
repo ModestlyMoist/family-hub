@@ -1,7 +1,7 @@
-// Calendar 2.0 — month view foundation v230a
+// Calendar 2.0 — month view foundation v231a
 (function(){
   function custodyName(c){return c.includes('→')?'Transition':c.includes('Dad')?'Dad':'Mom'}
-  function timeLabel(t){if(!t)return '';let [h,m]=t.split(':').map(Number),ap=h>=12?'PM':'AM',hr=h%12||12;return hr+(m?':'+String(m).padStart(2,'0'):'')+' '+ap}
+  function timeLabel(t){if(!t)return '';let [h,m]=t.split(':');return String(h).padStart(2,'0')+':'+String(m||'00').padStart(2,'0')}
   function monthView(){
     let y=calCursor.getFullYear(),m=calCursor.getMonth(),first=new Date(y,m,1),start=new Date(y,m,1-first.getDay()),cells='';
     for(let i=0;i<42;i++){
