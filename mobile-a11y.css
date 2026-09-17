@@ -1,0 +1,29 @@
+/* Mobile & Accessibility 1.0 — v183a */
+:where(button,a,input,select,textarea,summary):focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+button,.nav-action,.more-destination,summary{touch-action:manipulation}
+input,select,textarea{font-size:16px}
+button{min-height:40px}
+.icon,.mini{min-width:40px}
+summary{cursor:pointer;padding:8px 2px;border-radius:8px}
+.card,.item,.meta,b,strong,h1,h2,h3{overflow-wrap:anywhere}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+@media(max-width:600px){
+  body{font-size:15px;-webkit-text-size-adjust:100%}
+  .compact-header{padding-left:14px;padding-right:14px}
+  .header-brand{min-width:0}.header-brand h1{font-size:24px;line-height:1.1}.header-date{font-size:13px}
+  .header-summary{width:100%;overflow-x:auto;overscroll-behavior-inline:contain;scrollbar-width:none}.header-summary::-webkit-scrollbar{display:none}.header-summary>div{min-width:68px;flex:0 0 auto}
+  #dashboard.grid{padding-left:10px;padding-right:10px;gap:10px}
+  .card{padding:14px;border-radius:17px;min-width:0}.card-head{flex-wrap:wrap}.card-head>.actions{width:100%;margin-top:4px}
+  button{min-height:44px;padding:10px 12px}.mini{min-height:40px;padding:8px 10px}.icon{min-width:44px;min-height:44px}
+  .actions{gap:7px}.actions>button{flex:1 1 auto}
+  .item{min-width:0}.item>div{min-width:0}.item-actions{gap:6px}
+  .pill{white-space:nowrap}
+  dialog{width:calc(100% - 16px);max-height:calc(100dvh - 24px);padding:16px;border-radius:18px}.modal-head{position:sticky;top:-16px;z-index:3;background:var(--card);padding:8px 0 10px}.modal-actions{position:sticky;bottom:-16px;z-index:3;background:var(--card);padding:10px 0 8px;margin-top:12px}.modal-actions button{flex:1}
+  .field input,.field select,.field textarea{min-height:44px;padding:11px}.field textarea{min-height:100px}
+  .nav-action-grid,.more-grid{grid-template-columns:1fr!important}.nav-action,.more-destination{text-align:left;min-height:50px}
+  .calendar-grid{scrollbar-width:thin}.cal-day{min-width:54px}.cal-event{min-height:28px}
+  .sports-page-full{min-width:0}.sports-kids{overflow-x:auto;scroll-snap-type:x proximity;padding-bottom:4px}.sport-kid{min-width:min(82vw,340px)!important;scroll-snap-align:start}.sports-schedule-card .sport-row{min-width:0}.sports-schedule-card .item-actions{width:100%;margin-left:0}
+  .activity-stats,.sports-stats{overflow-x:auto;display:flex!important;gap:8px;scroll-snap-type:x proximity;padding-bottom:4px}.activity-stats>div,.sports-stats>div{min-width:105px;flex:1 0 105px;scroll-snap-align:start}
+  .primary-nav{padding-bottom:max(8px,env(safe-area-inset-bottom))}.primary-nav button{min-height:52px}
+}
+@media(max-width:380px){.header-brand h1{font-size:22px}.grid{padding-left:8px!important;padding-right:8px!important}.card{padding:12px}.sport-kid{min-width:86vw!important}}
