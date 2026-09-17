@@ -1,1 +1,1 @@
-{"name":"The Family Hub","short_name":"Family Hub","start_url":"./","display":"standalone","background_color":"#f5f3ee","theme_color":"#556b5f","icons":[]}
+{"id":"./","name":"The Family Hub","short_name":"Family Hub","description":"Family calendar, tasks, wellness, meals, shopping, sports and daily planning in one place.","start_url":"./","scope":"./","display":"standalone","display_override":["standalone","minimal-ui"],"orientation":"any","background_color":"#171816","theme_color":"#556b5f","categories":["lifestyle","productivity"],"lang":"en-US","dir":"ltr"}
