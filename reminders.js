@@ -1,0 +1,20 @@
+// Reminders 1.0 — v189a
+(function(){
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function add(ds,n){let d=new Date(ds+'T12:00');d.setDate(d.getDate()+n);return iso(d)}
+function fmtTime(t){if(!t)return '';let [h,m]=t.split(':').map(Number),ap=h>=12?'PM':'AM';h=h%12||12;return h+(m?':'+String(m).padStart(2,'0'):'')+' '+ap}
+function minutes(t){if(!t)return null;let [h,m]=t.split(':').map(Number);return h*60+(m||0)}
+function nowMinutes(){let p=new Intl.DateTimeFormat('en-US',{timeZone:'America/Los_Angeles',hour:'2-digit',minute:'2-digit',hour12:false}).formatToParts(new Date()),o=Object.fromEntries(p.map(x=>[x.type,x.value]));return (+o.hour%24)*60+(+o.minute||0)}
+window.familyAttention=function(){let today=vegasToday(),tomorrow=add(today,1),items=[];
+  (data.tasks||[]).forEach(t=>{if(t.done||t.taskMode==='cycle')return;if(t.due&&t.due<today)items.push({level:'urgent',icon:'⚠️',title:t.name,detail:'Overdue task'+(t.assigned?' · '+t.assigned:''),go:'tasks'});else if(t.due===today)items.push({level:'today',icon:'✅',title:t.name,detail:'Task due today'+(t.assigned?' · '+t.assigned:''),go:'tasks'})});
+  (data.payments||[]).forEach(p=>{if(p.paid)return;let d=new Date(today+'T12:00'),last=new Date(d.getFullYear(),d.getMonth()+1,0).getDate(),due=Math.min(+p.day||1,last),day=d.getDate();if(due<day)items.push({level:'urgent',icon:'💵',title:p.name,detail:'Payment overdue'+(p.amount?' · $'+p.amount:''),go:'more'});else if(due===day)items.push({level:'today',icon:'💵',title:p.name,detail:'Payment due today'+(p.amount?' · $'+p.amount:''),go:'more'});else if(due===day+1)items.push({level:'soon',icon:'💵',title:p.name,detail:'Payment due tomorrow'+(p.amount?' · $'+p.amount:''),go:'more'})});
+  let tomorrowEvents=typeof eventsForDate==='function'?eventsForDate(tomorrow):[];tomorrowEvents.forEach(e=>{if(e.schoolCalendar||/^NO SCHOOL - |^HALF DAY - /.test(e.title||''))items.push({level:'soon',icon:/^HALF DAY/.test(e.title||'')?'🕛':'🏫',title:e.title,detail:'Tomorrow',go:'calendar'})});
+  let todayEvents=typeof eventsForDate==='function'?eventsForDate(today):[];let nm=nowMinutes();todayEvents.forEach(e=>{if(e.type==='Game'||e.type==='Practice'){let leave=e.leave||e.arrive||'',target=minutes(leave||e.time);if(target!==null){let diff=target-nm;if(diff>=0&&diff<=120)items.push({level:diff<=30?'urgent':'today',icon:e.type==='Game'?'⚾':'🏃',title:e.title,detail:(e.leave?'Leave':'Arrive')+' '+fmtTime(leave||e.time)+(e.location?' · '+e.location:''),go:'sports'})}}});
+  let rank={urgent:0,today:1,soon:2};return items.sort((a,b)=>rank[a.level]-rank[b.level]).slice(0,8)};
+function card(){let items=familyAttention();if(!items.length)return '';return '<section class="card full attention-card"><div class="card-head"><div><div class="eyebrow">ATTENTION</div><h2>Needs your attention</h2><div class="meta">'+items.length+' item'+(items.length===1?'':'s')+' to keep on your radar</div></div></div><div class="attention-list">'+items.map(x=>'<button type="button" class="attention-item '+x.level+'" data-attention-go="'+x.go+'"><span class="attention-emoji">'+x.icon+'</span><span><b>'+esc(x.title)+'</b><small>'+esc(x.detail)+'</small></span><i>›</i></button>').join('')+'</div></section>'}
+function inject(){if(!['home','today'].includes(window.view||view))return;let root=document.querySelector('#dashboard');if(!root||root.querySelector('.attention-card'))return;let html=card();if(html)root.insertAdjacentHTML('afterbegin',html)}
+function route(go){if(go==='sports'&&typeof window.openSportsHub==='function')return window.openSportsHub();let b=document.querySelector('[data-view="'+go+'"]');if(b)return b.click();if(go==='more')return document.querySelector('[data-action="more"]')?.click();view=go;render()}
+document.addEventListener('click',e=>{let b=e.target.closest?.('[data-attention-go]');if(b)route(b.dataset.attentionGo)});
+let old=window.render;if(typeof old==='function'){window.render=function(){let r=old.apply(this,arguments);setTimeout(inject,0);return r}}else setInterval(inject,500);
+setTimeout(inject,0);
+})();
