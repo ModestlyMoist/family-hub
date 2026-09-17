@@ -1,8 +1,8 @@
-// Sports child + event-type colors — v228a
+// Sports child + event-type colors — v229a
 (function(){
   const COLORS={
     Richard:{Game:'#5f7898',Practice:'#9db0c6'},
-    Timothy:{Game:'#6f9277',Practice:'#a9c0ad'},
+    Timothy:{Game:'#d97732',Practice:'#e9a56d'},
     Both:{Game:'#8b7696',Practice:'#b9a9c0'}
   };
   function color(person,type){let p=COLORS[person]||COLORS.Both;return p[type]||p.Game}
