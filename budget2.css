@@ -48,3 +48,6 @@
 
 /* Funding bars resilience v277b */
 .mb-needline .mb-progress{display:inline-block!important;width:44px!important;height:7px!important;min-width:44px;overflow:hidden;border-radius:999px;background:rgba(180,70,70,.24)!important}.mb-needline .mb-progress i{display:block!important;height:100%!important}.mb-needline .mb-progress.under i{background:#c84d4d!important}.mb-needline .mb-progress.funded,.mb-needline .mb-progress.funded i{background:#3f8f5f!important}
+
+/* Precisely center group Fill All under Assigned values v277d */
+.mb-grouphead .mb-fill{grid-column:2!important;justify-self:center!important;align-self:center!important;margin:0!important;transform:none!important;width:max-content}
