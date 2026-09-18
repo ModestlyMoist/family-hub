@@ -10,4 +10,3 @@
  document.addEventListener('click',function(ev){if(ev.target.closest&&ev.target.closest('[data-action="money"]')){setTimeout(render,20);setTimeout(render,120);setTimeout(render,300)}});
  window.addEventListener('budget2:render',function(){setTimeout(render,30)});window.addEventListener('budgetLayout:refresh',function(){setTimeout(render,0)});window.addEventListener('budgetAccounts:render',function(){setTimeout(render,0)});
 })();
-
