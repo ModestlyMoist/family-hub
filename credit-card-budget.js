@@ -11,8 +11,8 @@
   });
  }
  function paymentId(id){return 'card-payment-'+String(id)}
- function calculate(excludeId,throughDate){
-  ensure();var b=data.budget,balances={},snapshots={},unfunded={},unreservedByCard={},monthly=b.monthly||{},tx=(b.transactions||[]).filter(function(x){return String(x.id)!==String(excludeId)&&(!throughDate||String(x.date)<=throughDate)}).slice();
+ function calculate(excludeId,throughDate,readOnly){
+  if(!readOnly)ensure();var b=Object.assign({categories:[]},data.budget||{}),balances={},snapshots={},unfunded={},unreservedByCard={},monthly=b.monthly||{},tx=(b.transactions||[]).filter(function(x){return String(x.id)!==String(excludeId)&&(!throughDate||String(x.date)<=throughDate)}).slice();
   var months=Object.keys(monthly);
   (b.bucketMoves||[]).forEach(function(x){var m=String(x.date).slice(0,7);if(months.indexOf(m)<0)months.push(m)});
   tx.forEach(function(x){var m=String(x.date||'').slice(0,7);if(m&&months.indexOf(m)<0)months.push(m)});
