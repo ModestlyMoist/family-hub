@@ -83,3 +83,28 @@
  .mb-needline{font-size:.61rem!important;gap:4px!important}
  .mb-progress{width:34px!important;min-width:34px!important}
 }
+
+/* Money phone layout v278b — override desktop min-width/overflow */
+@media(max-width:700px){
+ #dashboard:has(.budget2-page){display:block!important;padding-left:10px!important;padding-right:10px!important;overflow-x:hidden!important}
+ .budget2-page{width:100%!important;max-width:100%!important;min-width:0!important;overflow:hidden!important}
+ .budget2-head{width:100%!important}
+ .bacc-wrap,.mb-wrap{width:100%!important;max-width:100%!important;min-width:0!important}
+ .bacc-summary{display:grid!important;grid-template-columns:1fr 1fr!important}
+ .bacc-summary .bacc-stat:last-child{grid-column:1/-1!important}
+ .bacc-head{display:grid!important;grid-template-columns:1fr auto!important}
+ .mb-table{width:100%!important;overflow:visible!important;margin:0!important}
+ .mb-columns,.mb-row,.mb-grouphead{min-width:0!important;width:100%!important;grid-template-columns:minmax(0,1fr) 72px 66px 72px!important}
+ .mb-columns{font-size:.52rem!important;padding:7px 4px!important}
+ .mb-grouphead{padding:6px 4px!important}
+ .mb-row{padding:6px 4px!important}
+ .mb-cat{min-width:0!important;overflow:visible!important;white-space:normal!important}
+ .mb-cat-edit{gap:2px!important;align-content:center!important}
+ .mb-cat-edit>span{width:100%;font-size:.68rem!important;line-height:1.15}
+ .mb-needline{width:100%;font-size:.52rem!important;gap:3px!important;overflow:hidden}
+ .mb-needline>span:last-child{overflow:hidden;text-overflow:ellipsis}
+ .mb-progress{width:26px!important;min-width:26px!important}
+ .mb-assigned,.mb-available,.mb-row>span{font-size:.68rem!important;padding-left:2px!important;padding-right:2px!important}
+ .mb-fill{font-size:.56rem!important;padding:4px 5px!important}
+ .mb-addcat{font-size:.75rem!important;padding:1px 3px!important}
+}
