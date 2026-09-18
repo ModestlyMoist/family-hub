@@ -1,0 +1,20 @@
+const vm=require('node:vm'),fs=require('node:fs'),assert=require('node:assert/strict');
+const fields={},body={querySelector:s=>fields[s]||(fields[s]={value:'',focus(){}})},modal={showModal(){},close(){}},title={},alerts=[];
+const ctx={data:{budget:{accounts:[{id:'chase',name:'Chase',type:'Checking',balance:3000},{id:'visa',name:'Visa',type:'Credit Card',balance:500}],categories:[{id:'food',name:'Groceries'}],monthly:{'2026-09':{assignments:{food:400}}},transactions:[]}},window:{addEventListener(){},dispatchEvent(){}},document:{querySelector:s=>s==='#modal'?modal:s==='#modalTitle'?title:s==='#modalBody'?body:null,addEventListener(){},createElement(){return {set textContent(s){this.innerHTML=s}}}},localStorage:{setItem(){}},save(){},setTimeout(){},Event:class{},alert:s=>alerts.push(s),confirm:()=>true};
+vm.createContext(ctx);vm.runInContext(fs.readFileSync(__dirname+'/credit-card-budget.js','utf8'),ctx);
+let source=fs.readFileSync(__dirname+'/budget-transactions.js','utf8');source=source.replace('window.openBudgetTransaction=openAdd;', 'window.openBudgetTransaction=openAdd;window.testEdit=editTransaction;window.testTransfer=openTransfer;');vm.runInContext(source,ctx);
+const e={preventDefault(){},stopPropagation(){}},b=ctx.data.budget;
+function values(map){Object.entries(map).forEach(([k,v])=>body.querySelector('#'+k).value=v)}
+ctx.window.openBudgetTransaction();values({txDate:'2026-09-17',txAmount:'100',txMerchant:"Smith's",txAccount:'visa',txCategory:'food'});fields['#txSave'].onclick(e);
+assert.equal(b.accounts[1].balance,600);assert.equal(ctx.window.creditCardBudget.calculate().available('card-payment-visa','2026-09'),100);
+ctx.window.testTransfer();values({tfDate:'2026-09-18',tfAmount:'100',tfFrom:'chase',tfTo:'visa'});fields['#tfSave'].onclick(e);
+assert.equal(b.accounts[0].balance,2900);assert.equal(b.accounts[1].balance,500);
+const purchase=b.transactions[0],payment=b.transactions[1];
+ctx.window.testEdit(payment.id);values({teDate:'2026-09-18',teAmount:'100',teFrom:'chase',teTo:'chase'});const before=JSON.stringify(b);fields['#teSave'].onclick(e);assert.equal(JSON.stringify(b),before);
+ctx.window.testEdit(payment.id);values({teDate:'2026-09-18',teAmount:'50',teFrom:'chase',teTo:'visa'});fields['#teSave'].onclick(e);assert.equal(b.accounts[0].balance,2950);assert.equal(b.accounts[1].balance,550);assert.equal(ctx.window.creditCardBudget.calculate().available('card-payment-visa','2026-09'),50);
+ctx.window.testEdit(payment.id);fields['#teDelete'].onclick(e);assert.equal(b.accounts[0].balance,3000);assert.equal(b.accounts[1].balance,600);
+ctx.window.testEdit(purchase.id);values({teDate:'2026-09-17',teAmount:'150',teFrom:'visa',teCategory:'food',teMerchant:''});const original=JSON.stringify(b);fields['#teSave'].onclick(e);assert.equal(JSON.stringify(b),original);
+ctx.window.testEdit(purchase.id);values({teDate:'2026-09-17',teAmount:'150',teFrom:'visa',teCategory:'food',teMerchant:'Edited'});fields['#teSave'].onclick(e);assert.equal(b.accounts[1].balance,650);
+ctx.window.testEdit(purchase.id);fields['#teDelete'].onclick(e);assert.equal(b.accounts[1].balance,500);assert.equal(ctx.window.creditCardBudget.calculate().available('card-payment-visa','2026-09'),0);
+assert.equal(alerts.length,2);
+console.log('Passed: actual add/transfer/edit/delete handlers; invalid edits preserve all data and balances.');
