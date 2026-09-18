@@ -34,3 +34,8 @@
 @media(prefers-color-scheme:light){:root{--bg:#f4f3ec;--card:#fffefa;--text:#242b24;--muted:#626a60;--line:#dedfd5;--accent:#486453}}
 #modal button.primary,.gate button{color:var(--bg);background:var(--accent);font-weight:650}#app .mb-row{border-bottom-color:var(--line)}#modal .more-icon[data-hv-symbol]{color:var(--accent)!important;font-family:inherit!important;background:var(--hv-soft);border-radius:10px;width:36px;height:36px;display:grid!important;place-items:center}#modal .more-icon[data-hv-symbol]::after,#modal .more-icon[data-hv-symbol]::before{content:none!important}
 #app .primary-nav .hv-nav-icon{display:grid;place-items:center;width:26px;height:26px;margin:auto}#app .primary-nav [data-action=add]{color:var(--bg)}
+
+/* Daily skip controls belong beside task content, never in the checkbox column. */
+#app [data-skip-task]{min-height:44px;white-space:nowrap;flex-shrink:0;line-height:1.25;padding:10px 12px;font-size:12px}
+#app .home-task-row>[data-skip-task]{grid-column:2;justify-self:start;max-width:100%;width:auto}
+#app .item-actions:has([data-skip-task]){align-items:center;gap:8px}
