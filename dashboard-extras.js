@@ -19,6 +19,7 @@ function removeDashboardOnly(){let r=root();if(!r)return;r.querySelectorAll('[da
 function reconcile(){let r=root();if(!r)return;let surface=syncSurface();if(surface!=='home'){removeDashboardOnly();return}let added=false;tiles.forEach(t=>{if(!r.querySelector(t.selector)){r.insertAdjacentHTML('beforeend',t.render());added=true}});if(added)document.dispatchEvent(new CustomEvent('family-dashboard-ready'))}
 let timer;function schedule(){clearTimeout(timer);timer=setTimeout(reconcile,120)}
 document.addEventListener('click',e=>{let b=e.target.closest?.('[data-extra-go]');if(b){e.preventDefault();e.stopPropagation();go(b.dataset.extraGo);setTimeout(reconcile,180);return}if(e.target.closest?.('[data-view],[data-action="more"],[data-sports-open],[data-debt-open]'))setTimeout(reconcile,180)});
-document.addEventListener('DOMContentLoaded',()=>{let r=root();if(r)new MutationObserver(schedule).observe(r,{childList:true});schedule()});
+document.addEventListener('family-dashboard-ready',reconcile);document.addEventListener('DOMContentLoaded',()=>{let r=root();if(r)new MutationObserver(schedule).observe(r,{childList:true});schedule()});
 let lastSports='';setInterval(()=>{if(!homeMounted()){removeDashboardOnly();return}reconcile();let key=vegasToday()+'|'+(data.events||[]).map(e=>[e.id,e.result,e.teamScore,e.opponentScore].join(':')).join(',');if(key!==lastSports){lastSports=key;let r=root(),old=r.querySelector('.dash-sports');if(old){let temp=document.createElement('div');temp.innerHTML=sports(vegasToday());old.replaceWith(temp.firstElementChild);document.dispatchEvent(new CustomEvent('family-dashboard-ready'))}}},1500);
 })();
+

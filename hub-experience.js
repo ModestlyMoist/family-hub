@@ -27,7 +27,9 @@
  }
  // Date mismatch remains visible while entering a transaction.
  let modalTimer;new MutationObserver(()=>{clearTimeout(modalTimer);modalTimer=setTimeout(()=>{let input=$('#txDate,#tfDate,#teDate');if(!input||$('#hubDateWarning'))return;let warning=document.createElement('p');warning.id='hubDateWarning';warning.className='meta';input.closest('.form-grid').after(warning);function update(){warning.textContent=input.value.slice(0,7)!==data.budget.activeMonth?'This transaction belongs to '+input.value.slice(0,7)+', while your budget is showing '+data.budget.activeMonth+'.':''}input.addEventListener('change',update);update()},30)}).observe($('#modalBody'),{childList:true,subtree:true});
+ const previousRender=window.render;window.render=function(){let result=previousRender.apply(this,arguments);apply();return result};
  let timer;new MutationObserver(()=>{clearTimeout(timer);timer=setTimeout(apply,100)}).observe($('#dashboard'),{childList:true,subtree:true});
  const initial=location.hash.slice(1);if(['home','today','calendar','tasks','habits','activity','meals','shop','more','settings','money','sports','debt','meds'].includes(initial)&&initial!=='home')setTimeout(()=>navigate(initial),900);
- window.addEventListener('familyHub:syncStatus',apply);window.hubExperience={navigate,help,current:()=>route,refresh:()=>{if($('#modal').open){$('#modal').addEventListener('close',()=>window.hubExperience.refresh(),{once:true});return}let scroll=window.scrollY;if(route==='money')window.moneyWorkspace.refresh();else navigate(route);setTimeout(()=>window.scrollTo(0,scroll),100)}};
+ window.addEventListener('familyHub:syncStatus',apply);window.hubExperience={navigate,help,settle:apply,current:()=>route,refresh:()=>{if($('#modal').open){$('#modal').addEventListener('close',()=>window.hubExperience.refresh(),{once:true});return}let scroll=window.scrollY;if(route==='money')window.moneyWorkspace.refresh();else navigate(route);setTimeout(()=>window.scrollTo(0,scroll),100)}};
 })();
+

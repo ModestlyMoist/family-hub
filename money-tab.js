@@ -8,7 +8,7 @@
     b.type='button';b.dataset.action='money';b.setAttribute('aria-label','Money');
     b.innerHTML='$<span>Money</span>';
     if(more)nav.insertBefore(b,more);else nav.appendChild(b);
-    b.addEventListener('click',function(e){e.preventDefault();if(typeof window.openBudget2==='function'){window.openBudget2();setTimeout(function(){window.dispatchEvent(new Event('budget2:render'));window.dispatchEvent(new Event('budgetAccounts:render'))},20)}else{alert('Budget is still loading. Please refresh once.')}});
+    b.addEventListener('click',function(e){e.preventDefault();if(typeof window.openBudget2==='function'){window.openBudget2();window.dispatchEvent(new Event('budget2:render'));window.hubExperience?.settle()}else{alert('Budget is still loading. Please refresh once.')}});
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',addMoney);else addMoney();
 })();
