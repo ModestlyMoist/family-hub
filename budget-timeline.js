@@ -12,8 +12,8 @@
     return '<div class="bpt-card'+(current?' current':'')+'"><div class="bpt-top"><span>'+label+'</span><b>'+fmt(start)+'</b></div><div class="bpt-income"><strong>'+money(income)+'</strong><small>take-home</small></div><div class="bpt-items">'+items+'</div><div class="bpt-foot"><span>Bills</span><b>'+money(total)+'</b></div></div>'
   }
   function render(){
-    var page=document.querySelector('.budget2-page');if(!page||page.querySelector('.bpt-wrap'))return;
-    var budget=window.data&&data.budget||{},anchor=budget.nextPayday;if(!anchor)return;
+    var page=document.querySelector('.budget2-page');if(!page)return;var existing=page.querySelector('.bpt-wrap');if(existing)existing.remove();
+    var budget=window.data&&data.budget||{},anchor=budget.nextPayday;if(!anchor){var old=page.querySelector('.bpt-wrap');if(old)old.remove();return;}
     var step=budget.payFrequency==='weekly'?7:14,today=(typeof vegasToday==='function'?vegasToday():new Date().toISOString().slice(0,10)),next=anchor;
     while(next<today)next=add(next,step);
     var prev=add(next,-step),prior=add(prev,-step),following=add(next,step),income=Number(budget.paycheckAmount)||0;
@@ -21,6 +21,6 @@
     wrap.innerHTML='<div class="bpt-head"><div><h3>Paycheck timeline</h3><span class="meta">Which bills each paycheck is responsible for.</span></div></div><div class="bpt-track">'+card('Previous paycheck',prior,add(prev,-1),income,false)+card('Current paycheck',prev,add(next,-1),income,true)+card('Next paycheck',next,add(following,-1),income,false)+'</div>';
     var grid=page.querySelector('.budget2-grid');if(grid)page.insertBefore(wrap,grid);else page.appendChild(wrap)
   }
-  document.addEventListener('click',function(e){if(e.target.closest&&e.target.closest('[data-action="money"]'))setTimeout(render,0)});
+  document.addEventListener('click',function(e){if(e.target.closest&&e.target.closest('[data-action="money"]')){setTimeout(render,0);setTimeout(render,120)}});
   window.addEventListener('budget2:render',render);
 })();
