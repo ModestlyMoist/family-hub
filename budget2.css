@@ -18,3 +18,6 @@
 
 /* Monthly assigned header semantics v272b */
 .mb-monthbar .mb-ready small{letter-spacing:.04em}.mb-monthbar .mb-ready strong{font-size:1.15rem}
+
+/* Available-balance move affordance v272c */
+.mb-available{padding:5px 8px;min-height:0;background:transparent;border:0;text-align:right!important;font-weight:700;cursor:pointer}.mb-available:hover{text-decoration:underline}.mb-ready{grid-template-columns:1fr}.mb-ready small,.mb-ready strong{grid-column:1}.mb-move{display:none}
