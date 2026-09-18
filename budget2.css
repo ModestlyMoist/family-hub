@@ -36,3 +36,6 @@
 
 /* Category rollover settings + add category v274a */
 .mb-addcat{border:0;background:transparent;padding:2px 6px;min-height:0;font-size:.9rem;cursor:pointer}.mb-cat-edit>small{white-space:normal}
+
+/* Rollover / month-to-month indicator v274b */
+.mb-roll-icon{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border:1px solid currentColor;border-radius:50%;font-style:normal;font-size:.72rem;line-height:1;vertical-align:middle;opacity:.82}.mb-roll-icon.is-month{border-radius:5px}
