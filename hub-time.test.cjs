@@ -1,3 +1,4 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');const context={window:{}};vm.runInNewContext(fs.readFileSync('hub-time.js','utf8'),context);const t=context.window.familyHubTime;
 for(const [input,expected] of [['00:00','12 AM'],['12:00','12 PM'],['17:30','5:30 PM'],['09:05','9:05 AM'],['23:59','11:59 PM'],['','All day'],['24:00','24:00'],['12:60','12:60'],['Reminder','Reminder']])assert.equal(t.format(input),expected);
 assert.equal(t.range('11:30','12:15'),'11:30 AM – 12:15 PM');assert.equal(t.range('',null),'All day');console.log('Passed: midnight, noon, minutes, ranges, all-day and invalid display values.');
+assert.equal(t.format('00:00','24'),'00:00');assert.equal(t.format('9:05','24'),'09:05');assert.equal(t.format('17:30','24'),'17:30');
