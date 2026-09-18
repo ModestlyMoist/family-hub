@@ -11,7 +11,8 @@
     const checks=data.habits.filter(h=>h.trackerType==='checkin'&&habitApplies(h,ds));
     const remaining=habits.filter(h=>!data.habitLog[ds]?.[h.id]),done=habits.length-remaining.length;
     const meal=data.mealPlan[ds];
-    const groups=[{name:'Household',cls:'household',items:tasks.filter(t=>t.category==='Household'||t.category==='Chore')},{name:'School',cls:'school',items:tasks.filter(t=>['School','Sports'].includes(t.category))},{name:'Work',cls:'work',items:tasks.filter(t=>t.category==='Work')}];
+    let groups=[{name:'Household',cls:'household',items:tasks.filter(t=>t.category==='Household'||t.category==='Chore')},{name:'School',cls:'school',items:tasks.filter(t=>['School','Sports'].includes(t.category))},{name:'Work',cls:'work',items:tasks.filter(t=>t.category==='Work')}];
+    if(localStorage.getItem('familyHubTodayGrouping')==='person'){let people=[...new Set(tasks.map(t=>t.assigned||'Everyone'))];groups=people.map(person=>({name:String(person).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),cls:'person',items:tasks.filter(t=>(t.assigned||'Everyone')===person)}))}else{let other=tasks.filter(t=>!groups.some(g=>g.items.includes(t)));if(other.length)groups.push({name:'Other',cls:'other',items:other})}
     const now=new Date(),day=now.getDate(),last=new Date(now.getFullYear(),now.getMonth()+1,0).getDate();
     const duePayments=(data.payments||[]).filter(p=>!p.paid&&Math.min(+p.day||1,last)<=day);
     const dateLabel=new Date(ds+'T12:00').toLocaleDateString([],{weekday:'long',month:'long',day:'numeric'});
