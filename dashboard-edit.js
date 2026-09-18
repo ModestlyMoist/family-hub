@@ -1,7 +1,7 @@
 // Home dashboard editor — header-mounted control + CSS-grid ordering v224a
 (function(){
 function R(){return document.querySelector('#dashboard')}
-function isHome(){try{return (window.view||view)==='home'}catch(e){return false}}
+function isHome(){return !!R()?.querySelector('.family-glance')}
 function label(el){return (el.querySelector('h2')?.textContent||el.querySelector('h3')?.textContent||'').trim()}
 function slug(s){return s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')}
 function fixed(el){return !el||el.classList.contains('attention-card')||el.classList.contains('dashboard-editbar')||/running on empty|remember today|today.?s verse/i.test(el.textContent||'')}
@@ -17,5 +17,6 @@ function move(id,dir){let r=R(),pairs=getTiles(r),o=savedOrder(pairs),i=o.indexO
 document.addEventListener('click',e=>{if(e.target.closest?.('[data-dashboard-edit],[data-dashboard-done]')){e.preventDefault();e.stopPropagation();toggle();return}let b=e.target.closest?.('[data-dashboard-move]');if(b){e.preventDefault();e.stopPropagation();move(b.dataset.dashboardMove,b.dataset.dir)}});
 let timer;function schedule(){clearTimeout(timer);timer=setTimeout(applyVisualOrder,30)}document.addEventListener('DOMContentLoaded',()=>{let r=R();if(r)new MutationObserver(schedule).observe(r,{childList:true});schedule()});document.addEventListener('family-dashboard-ready',applyVisualOrder);setInterval(applyVisualOrder,1000);
 })();
+
 
 
