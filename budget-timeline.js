@@ -7,7 +7,7 @@
   function billDate(p,start,end){var cur=new Date(start+'T12:00'),z=new Date(end+'T12:00'),day=Number(p.day)||0;if(!day)return '';while(cur<=z){var max=new Date(cur.getFullYear(),cur.getMonth()+1,0).getDate();if(cur.getDate()===Math.min(day,max))return cur.toISOString().slice(0,10);cur.setDate(cur.getDate()+1)}return ''}
   function card(label,start,end,income,current){
     var bills=(window.data&&data.payments||[]).map(function(p){return {p:p,date:billDate(p,start,end)}}).filter(function(x){return x.date}).sort(function(a,b){return a.date.localeCompare(b.date)});
-    var total=bills.reduce(function(s,x){return s+(Number(x.p.amount)||0)},0);
+    var total=bills.reduce(function(s,x){return s+(Number(x.p.amount)||0)},0);var days=Math.round((new Date(end+'T12:00')-new Date(start+'T12:00'))/86400000)+1;var debtMonthly=(window.data&&data.debts||[]).reduce(function(s,d){return s+(Number(d.minimum)||0)},0);var debtReserve=debtMonthly*(days/30.4375);var expenses=(window.data&&data.budgetExpenses||[]).filter(function(x){return x.date>=start&&x.date<=end}).reduce(function(s,x){return s+(Number(x.amount)||0)},0);var committed=total+debtReserve+expenses;var free=Number(income||0)-committed;
     var items=bills.length?bills.map(function(x){return '<div class="bpt-item"><span>'+esc(x.p.name)+'<small>'+fmt(x.date)+'</small></span><b>'+money(x.p.amount)+'</b></div>'}).join(''):'<p class="muted">No monthly bills assigned.</p>';
     return '<div class="bpt-card'+(current?' current':'')+'"><div class="bpt-top"><span>'+label+'</span><b>'+fmt(start)+'</b></div><div class="bpt-income"><strong>'+money(income)+'</strong><small>take-home</small></div><div class="bpt-items">'+items+'</div><div class="bpt-foot"><span>Bills</span><b>'+money(total)+'</b></div></div>'
   }
