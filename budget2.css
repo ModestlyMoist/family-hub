@@ -39,3 +39,6 @@
 
 /* Rollover / month-to-month indicator v274b */
 .mb-roll-icon{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border:1px solid currentColor;border-radius:50%;font-style:normal;font-size:.72rem;line-height:1;vertical-align:middle;opacity:.82}.mb-roll-icon.is-month{border-radius:5px}
+
+/* Month funding progress + Fill Expected v275a */
+.mb-fillmonth{margin-top:5px;padding:5px 9px;min-height:0;font-size:.68rem}.mb-cat-edit>small{opacity:.72}
