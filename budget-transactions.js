@@ -1,0 +1,32 @@
+// Money transactions v279a — isolated ledger + manual entry
+(function(){
+ function money(n){return '$'+Number(n||0).toLocaleString(undefined,{maximumFractionDigits:2})}
+ function esc(s){var d=document.createElement('div');d.textContent=String(s||'');return d.innerHTML}
+ function ensure(){if(typeof data==='undefined')return false;data.budget=data.budget||{};data.budget.transactions=data.budget.transactions||[];return true}
+ function saveIt(){if(typeof save==='function')save();else localStorage.setItem('familyHubData',JSON.stringify(data))}
+ function today(){var d=new Date(),y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),day=String(d.getDate()).padStart(2,'0');return y+'-'+m+'-'+day}
+ function account(id){return (data.budget.accounts||[]).find(function(a){return String(a.id)===String(id)})}
+ function category(id){return (data.budget.categories||[]).find(function(c){return String(c.id)===String(id)})}
+ function openAdd(){
+  if(!ensure())return;var accts=data.budget.accounts||[],cats=data.budget.categories||[];
+  if(!accts.length)return alert('Add an account before recording transactions.');
+  var modal=document.querySelector('#modal'),title=document.querySelector('#modalTitle'),body=document.querySelector('#modalBody');if(!modal||!body)return;
+  title.textContent='Add transaction';
+  var ao=accts.map(function(a){return '<option value="'+a.id+'">'+esc(a.name)+' · '+esc(a.type||'Account')+'</option>'}).join('');
+  var groups=[];cats.forEach(function(c){if(groups.indexOf(c.group)<0)groups.push(c.group)});
+  var co=groups.map(function(g){return '<optgroup label="'+esc(g)+'">'+cats.filter(function(c){return c.group===g}).map(function(c){return '<option value="'+c.id+'">'+esc(c.name)+'</option>'}).join('')+'</optgroup>'}).join('');
+  body.innerHTML='<div class="form-grid"><label class="field">Date<input id="txDate" type="date" value="'+today()+'"></label><label class="field">Amount<input id="txAmount" inputmode="decimal" type="number" min=".01" step=".01" placeholder="0.00"></label><label class="field full">Merchant / description<input id="txMerchant" placeholder="Smith\'s, NV Energy, Target..."></label><label class="field">Account<select id="txAccount">'+ao+'</select></label><label class="field">Bucket<select id="txCategory">'+co+'</select></label></div><div class="modal-actions"><button type="button" id="txCancel">Cancel</button><button type="button" class="primary" id="txSave">Add transaction</button></div>';
+  modal.showModal();setTimeout(function(){var x=body.querySelector('#txAmount');if(x)x.focus()},30);
+  body.querySelector('#txCancel').onclick=function(e){e.preventDefault();modal.close()};
+  body.querySelector('#txSave').onclick=function(e){e.preventDefault();e.stopPropagation();var amount=Number(body.querySelector('#txAmount').value),merchant=body.querySelector('#txMerchant').value.trim(),date=body.querySelector('#txDate').value,accountId=body.querySelector('#txAccount').value,categoryId=body.querySelector('#txCategory').value,a=account(accountId),c=category(categoryId);if(!date)return alert('Choose a date.');if(!isFinite(amount)||amount<=0)return alert('Enter a valid amount.');if(!merchant)return alert('Add a merchant or description.');if(!a||!c)return alert('Choose an account and bucket.');data.budget.transactions.push({id:'tx-'+Date.now(),date:date,merchant:merchant,amount:amount,accountId:String(accountId),categoryId:String(categoryId),type:'expense',createdAt:new Date().toISOString()});var t=String(a.type||'').toLowerCase();if(t==='credit'||t==='credit card')a.balance=(Number(a.balance)||0)+amount;else a.balance=(Number(a.balance)||0)-amount;saveIt();modal.close();window.dispatchEvent(new Event('budgetTransactions:changed'));window.dispatchEvent(new Event('budgetAccounts:render'))}
+ }
+ function render(){
+  var page=document.querySelector('.budget2-page');if(!page||!ensure())return;page.querySelectorAll('.btx-wrap').forEach(function(x){x.remove()});
+  var tx=(data.budget.transactions||[]).slice().sort(function(a,b){return String(b.date).localeCompare(String(a.date))||String(b.id).localeCompare(String(a.id))}).slice(0,8),box=document.createElement('section');box.className='btx-wrap';
+  box.innerHTML='<div class="btx-head"><div><h3>Transactions</h3><span class="meta">Spending updates the account and its budget bucket.</span></div><button type="button" id="btxAdd">＋ Transaction</button></div><div class="btx-list">'+(tx.length?tx.map(function(t){var a=account(t.accountId),c=category(t.categoryId);return '<div class="btx-row"><span><b>'+esc(t.merchant)+'</b><small>'+esc(t.date)+' · '+esc(a?a.name:'Account')+' · '+esc(c?c.name:'Uncategorized')+'</small></span><strong>−'+money(t.amount)+'</strong></div>'}).join(''):'<div class="btx-empty"><b>No transactions yet</b><span>Add the first purchase to start tracking Activity.</span></div>')+'</div>';
+  var mb=page.querySelector('.mb-wrap');if(mb)mb.parentNode.insertBefore(box,mb.nextSibling);else page.appendChild(box);box.querySelector('#btxAdd').onclick=function(e){e.preventDefault();e.stopPropagation();openAdd()}
+ }
+ document.addEventListener('click',function(e){if(e.target.closest&&e.target.closest('[data-action="money"]')){setTimeout(render,100);setTimeout(render,260)}});
+ window.addEventListener('budget2:render',function(){setTimeout(render,100)});window.addEventListener('budgetTransactions:changed',function(){setTimeout(render,0)});
+ window.openBudgetTransaction=openAdd;
+})();
