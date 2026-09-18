@@ -24,3 +24,6 @@
 
 /* Move-money modal + credit account prep v272f */
 #mmDest{width:100%}#mmAmount{width:100%}
+
+/* Monthly expected amounts + Fill All v273a */
+.mb-cat{display:flex;align-items:center;gap:7px;flex-wrap:wrap}.mb-target{border:0;background:transparent;padding:2px 5px;min-height:0;font-size:.68rem;font-weight:600;opacity:.7;cursor:pointer}.mb-target:hover{text-decoration:underline}.mb-fill{padding:4px 8px;min-height:0;font-size:.66rem;justify-self:end}
