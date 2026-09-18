@@ -13,8 +13,8 @@
   }
   function render(){
     var page=document.querySelector('.budget2-page');if(!page)return;var existing=page.querySelector('.bpt-wrap');if(existing)existing.remove();
-    var budget=window.data&&data.budget||{},anchor=budget.nextPayday;if(!anchor){var old=page.querySelector('.bpt-wrap');if(old)old.remove();return;}
-    var step=budget.payFrequency==='weekly'?7:14,today=(typeof vegasToday==='function'?vegasToday():new Date().toISOString().slice(0,10)),next=anchor;
+    var budget=window.data&&data.budget||{},anchor=budget.nextPayday;
+    if(!anchor){var setup=document.createElement('div');setup.className='bpt-wrap bpt-empty';setup.innerHTML='<div class="bpt-head"><div><h3>Paycheck timeline</h3><span class="meta">Set your paycheck amount and next payday to map bills across paychecks.</span></div><button type="button" id="bptSetup">Set up paycheck</button></div>';var grid=page.querySelector('.budget2-grid');if(grid)page.insertBefore(setup,grid);else page.appendChild(setup);setup.querySelector('#bptSetup').onclick=function(){var b=document.querySelector('#budgetSetup');if(b)b.click()};return;}var step=budget.payFrequency==='weekly'?7:14,today=(typeof vegasToday==='function'?vegasToday():new Date().toISOString().slice(0,10)),next=anchor;
     while(next<today)next=add(next,step);
     var prev=add(next,-step),prior=add(prev,-step),following=add(next,step),income=Number(budget.paycheckAmount)||0;
     var wrap=document.createElement('div');wrap.className='bpt-wrap';
