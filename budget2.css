@@ -54,3 +54,32 @@
 
 /* Align Fill All with right-aligned Assigned dollar values v277e */
 .mb-grouphead .mb-fill{grid-column:2!important;justify-self:end!important;text-align:right!important}
+
+/* Money mobile density pass v278a */
+@media(max-width:700px){
+ .budget2-page{gap:10px;padding-bottom:110px}
+ .budget2-head{display:grid;gap:8px}
+ .budget2-head p.meta{display:none}
+ .budget2-actions{display:none}
+ .bacc-summary{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:6px!important}
+ .bacc-stat{padding:10px!important;min-width:0}
+ .bacc-stat small{font-size:.55rem!important}
+ .bacc-stat strong{font-size:1rem!important;white-space:nowrap}
+ .bacc-head{align-items:center!important}
+ .bacc-head h3{font-size:1rem!important}
+ .bacc-head .meta{display:none}
+ .bacc-account{padding:9px 10px!important}
+ .mb-monthbar{gap:6px!important;padding:9px 6px!important}
+ .mb-monthbar>div:nth-child(2) small{display:none}
+ .mb-ready{padding-top:6px!important}
+ .mb-ready small{font-size:.55rem!important}
+ .mb-ready strong{font-size:1rem!important}
+ .mb-fillmonth{margin-top:2px!important}
+ .mb-table{margin-left:-4px;margin-right:-4px}
+ .mb-columns,.mb-row,.mb-grouphead{min-width:560px!important;grid-template-columns:minmax(210px,1fr) 105px 105px 105px!important}
+ .mb-row{padding:6px 8px!important}
+ .mb-grouphead,.mb-columns{padding-left:8px!important;padding-right:8px!important}
+ .mb-cat-edit>span{font-size:.72rem}
+ .mb-needline{font-size:.61rem!important;gap:4px!important}
+ .mb-progress{width:34px!important;min-width:34px!important}
+}
