@@ -1,0 +1,12 @@
+const assert=require('node:assert/strict'),vm=require('node:vm'),fs=require('node:fs');
+const imports=require('./money-import.js');
+assert.equal(imports.parse('Date,Amount,Merchant\n2026-09-18,12.34,"Store, North"')[0].merchant,'Store, North');
+assert.equal(imports.parse('Date,Debit,Credit,Description\n09/18/2026,,250,Paycheck')[0].type,'income');
+assert.throws(()=>imports.parse('Date,Amount,Merchant\n2026-02-30,1,Store'),/Invalid date/);
+assert.throws(()=>imports.parse('[{"date":"2026-09-18","amount":-4}]'),/positive Amount/);
+assert.equal(imports.parse('```json\n[{"date":"2026-09-18","amount":4,"merchant":"Store"}]\n```').length,1);
+let context={window:{},data:{budget:{accounts:[{id:'cash',type:'Checking',balance:1000},{id:'visa',type:'Credit Card',balance:100}],categories:[{id:'food',name:'Food'},{id:'save',name:'Savings'}],monthly:{'2026-09':{assignments:{food:400}},'2026-10':{assignments:{}}},bucketMoves:[{id:'m',date:'2026-10-01',createdAt:'1',fromId:'food',toId:'save',amount:150}],transactions:[]}}};vm.createContext(context);vm.runInContext(fs.readFileSync('./credit-card-budget.js','utf8'),context);let api=context.window.creditCardBudget,b=context.data.budget;
+assert.equal(api.calculate().available('food','2026-10'),250);assert.equal(api.calculate().available('save','2026-10'),150);assert.equal(api.calculate().ready,600);assert.equal(b.monthly['2026-10'].assignments.food,undefined);
+let x={id:'i',type:'income',date:'2026-10-01',amount:200,accountId:'cash'};assert.equal(api.prepare(x),'');b.transactions.push(x);api.effect(x,1);assert.equal(api.calculate().ready,800);assert.equal(api.calculate().available('food','2026-10'),250);
+x={id:'a',type:'adjustment',date:'2026-10-02',amount:-10,accountId:'cash'};assert.equal(api.prepare(x),'');api.effect(x,1);assert.equal(b.accounts[0].balance,1190);api.effect(x,-1);assert.equal(b.accounts[0].balance,1200);
+console.log('Passed: quoted CSV, debit/credit income, JSON blocks, invalid date/sign rejection, carried bucket moves, unchanged funding, income and signed reconciliation effects.');
