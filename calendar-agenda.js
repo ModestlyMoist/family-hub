@@ -1,6 +1,6 @@
 // Calendar 2.0 — agenda view v239a
 (function(){
-  const time=t=>{if(!t)return 'ALL DAY';let [h,m]=t.split(':');return String(h).padStart(2,'0')+':'+String(m||'00').padStart(2,'0')};
+  const time=t=>window.familyHubTime.format(t);
   const color=e=>/^NO SCHOOL - /.test(e.title||'')?'#e0b72f':/^HALF DAY - /.test(e.title||'')?'#b45bd1':calendarEventColor(e);
   function agendaHtml(){
     let today=vegasToday(),groups=[];
