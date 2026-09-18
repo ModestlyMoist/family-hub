@@ -1,0 +1,6 @@
+.hub-collapsible>summary{cursor:pointer;font-weight:650;padding:10px 4px}.hub-collapsible-body{padding-top:5px}.hub-history-row{display:flex;justify-content:space-between;width:100%;text-align:left;padding:10px;border-bottom:1px solid var(--line)}.hub-help h3{margin-top:20px}.hub-help p{line-height:1.6}.sport-row[hidden],[data-snooze][hidden]{display:none!important}#dailyEncouragement .hub-collapsible>summary{font-size:.75rem}#dailyEncouragement:has(details:not([open])){padding:4px 12px;margin-bottom:8px}.shopping-category .hub-collapsible>summary{font-size:.85rem}.hub-history-row small{white-space:nowrap}
+@media(max-width:640px){.primary-nav{display:grid!important;grid-template-columns:repeat(6,minmax(0,1fr))!important;gap:0!important}.primary-nav button{min-width:0!important;padding:8px 1px!important;font-size:1rem!important}.primary-nav button span{font-size:.6rem!important}.compact-header{padding-bottom:6px}.header-summary{gap:8px}.hub-sync-status{margin:3px 0}.hub-history-row{font-size:.75rem;gap:8px}}
+
+.task-area .item[hidden]{display:none!important}.primary-nav button[aria-current=page]{outline:2px solid var(--accent);outline-offset:-3px}#csText{width:100%}
+
+.home-task-row[hidden],.family-today-task[hidden]{display:none!important}
