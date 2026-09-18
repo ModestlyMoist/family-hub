@@ -21,3 +21,6 @@
 
 /* Available-balance move affordance v272c */
 .mb-available{padding:5px 8px;min-height:0;background:transparent;border:0;text-align:right!important;font-weight:700;cursor:pointer}.mb-available:hover{text-decoration:underline}.mb-ready{grid-template-columns:1fr}.mb-ready small,.mb-ready strong{grid-column:1}.mb-move{display:none}
+
+/* Move-money modal + credit account prep v272f */
+#mmDest{width:100%}#mmAmount{width:100%}
