@@ -1,0 +1,16 @@
+// Presentation only: no family or financial data mutations.
+(function(){
+ 'use strict';const $=s=>document.querySelector(s);let expanded=false;
+ function apply(){let root=$('#dashboard');if(!root)return;let home=!!root.querySelector('.family-glance'),today=!!root.querySelector('.today-plan');$('#app').dataset.visualSurface=home?'home':today?'today':'other';
+  if(home){let list=$('.family-next-list'),rows=[...list.querySelectorAll('.family-next-row')];rows.forEach((r,i)=>r.hidden=!expanded&&i>=3);let more=$('#hvMoreEvents');if(rows.length>3){if(!more){more=document.createElement('button');more.type='button';more.id='hvMoreEvents';more.className='hv-text-button';list.after(more);more.onclick=()=>{expanded=!expanded;apply()}}let text=expanded?'Show fewer events':'Show all '+rows.length+' upcoming events';if(more.textContent!==text)more.textContent=text;more.setAttribute('aria-expanded',String(expanded))}
+   const icons={calendar:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4m10-4v4M3 11h18"/>',tasks:'<rect x="3" y="3" width="18" height="18" rx="4"/><path d="m7 12 3 3 7-7"/>',habits:'<path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-3-5.6 3 1.1-6.2L3 9.6l6.2-.9Z"/>',shop:'<path d="M3 3h2l3 12h11l2-8H6M9 20h.01M18 20h.01"/>'};root.querySelectorAll('.family-glance-grid [data-dash-go]').forEach(b=>{let icon=b.querySelector('span');if(icon.dataset.hvIcon)return;icon.dataset.hvIcon='1';icon.setAttribute('aria-hidden','true');icon.innerHTML='<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">'+icons[b.dataset.dashGo]+'</svg>'});
+   root.querySelectorAll('.weather').forEach(w=>{if(w.querySelector('details')||w.children.length<5)return;let details=document.createElement('details');details.className='hv-weather-details';let summary=document.createElement('summary');summary.textContent='Forecast and wind';details.append(summary);[...w.children].slice(4).forEach(x=>details.append(x));w.append(details)});
+   root.querySelectorAll('.week').forEach(week=>{week.setAttribute('aria-label','Seven-day family schedule');if(!week.nextElementSibling?.classList.contains('hv-week-hint')){let hint=document.createElement('p');hint.className='hv-week-hint meta';hint.textContent='Swipe across to see the week, or tap a day for details.';week.after(hint)}});
+   root.querySelectorAll('.day .tag').forEach(tag=>{let text=tag.textContent,next=text.replace(/^(\d{1,2}:\d{2})(?=\s*·)/,t=>window.familyHubTime.format(t));if(next!==text)tag.textContent=next});
+  }
+  root.querySelectorAll('.home-task-row .task-check').forEach(input=>{let name=input.closest('.home-task-row').querySelector('div>b')?.textContent;if(name&&!input.hasAttribute('aria-label'))input.setAttribute('aria-label','Complete '+name)});
+ }
+ const previous=window.render;window.render=function(){let result=previous.apply(this,arguments);apply();return result};document.addEventListener('family-dashboard-ready',apply);window.addEventListener('familyHub:syncStatus',apply);window.addEventListener('budget2:render',apply);
+ let queued=false;new MutationObserver(()=>{if(queued)return;queued=true;queueMicrotask(()=>{queued=false;window.hubExperience?.settle();apply()})}).observe($('#dashboard'),{childList:true,subtree:true});apply();window.familyHubVisual={apply};
+})();
+

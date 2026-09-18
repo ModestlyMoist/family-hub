@@ -4,7 +4,7 @@ function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&l
 function root(){return document.querySelector('#dashboard')}
 function syncSurface(){let r=root();if(!r)return '';if(r.querySelector(':scope > .sports-page-full'))r.dataset.fhSurface='sports';else if(r.querySelector(':scope > .debt-page'))r.dataset.fhSurface='debt';else if(r.querySelector(':scope > .family-glance'))r.dataset.fhSurface='home';else r.dataset.fhSurface='other';return r.dataset.fhSurface}
 function homeMounted(){return syncSurface()==='home'}
-function ft(t){if(!t)return 'All day';let [h,m]=t.split(':').map(Number),a=h>=12?'PM':'AM';h=h%12||12;return h+(m?':'+String(m).padStart(2,'0'):'')+' '+a}
+function ft(t){return window.familyHubTime.format(t)}
 function openInjected(selector){let more=document.querySelector('[data-action="more"]');if(!more)return;more.click();setTimeout(()=>{let b=document.querySelector(selector);if(b)b.click()},80)}
 function go(v){if(v==='sports'){openInjected('[data-sports-open]');return}if(v==='debt'){openInjected('[data-debt-open]');return}if(v==='wellness'){try{view='habits';render();window.scrollTo({top:0,behavior:'smooth'})}catch(e){}return}}
 function sportEvents(){let out=[];(data.events||[]).filter(e=>e.type==='Game'||e.sportEvent&&e.type==='Game').forEach(e=>{if(e.repeat==='Weekly'&&e.repeatEnd){let d=new Date(e.date+'T12:00'),end=new Date(e.repeatEnd+'T12:00'),skip=new Set(e.excludedDates||[]);while(d<=end){let ds=iso(d);if(!skip.has(ds))out.push({...e,date:ds});d.setDate(d.getDate()+7)}}else out.push(e)});return out}

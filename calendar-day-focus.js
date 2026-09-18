@@ -1,7 +1,7 @@
 // Calendar 2.0 — day focus drill-down v233a
 (function(){
   const schoolColor=e=>/^NO SCHOOL - /.test(e.title||'')?'#e0b72f':/^HALF DAY - /.test(e.title||'')?'#b45bd1':calendarEventColor(e);
-  const time=t=>{if(!t)return 'All day';let [h,m]=t.split(':');return String(h).padStart(2,'0')+':'+String(m||'00').padStart(2,'0')};
+  const time=t=>window.familyHubTime.format(t);
   const esc=s=>String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   function openDay(ds){
     let d=new Date(ds+'T12:00'),cust=custodyForDate(ds),cc=custodyColor(cust),es=eventsForDate(ds).slice().sort((a,b)=>schoolEventPriority(a)-schoolEventPriority(b)||(a.time||'99:99').localeCompare(b.time||'99:99'));

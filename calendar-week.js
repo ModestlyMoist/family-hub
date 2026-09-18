@@ -1,7 +1,7 @@
 // Calendar 2.0 — week view v235a
 (function(){
   let weekCursor=null;
-  const time=t=>{if(!t)return '';let [h,m]=t.split(':');return String(h).padStart(2,'0')+':'+String(m||'00').padStart(2,'0')};
+  const time=t=>window.familyHubTime.format(t);
   const color=e=>/^NO SCHOOL - /.test(e.title||'')?'#e0b72f':/^HALF DAY - /.test(e.title||'')?'#b45bd1':calendarEventColor(e);
   const text=e=>/^NO SCHOOL - /.test(e.title||'')?'#1c1c18':'#fff';
   function startOfWeek(ds){let d=new Date(ds+'T12:00');d.setDate(d.getDate()-d.getDay());return d}
