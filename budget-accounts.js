@@ -1,4 +1,4 @@
-// Budget accounts + Available to Assign v270a
+// Budget accounts + READY TO ASSIGN v270a
 (function(){
  function m(n){return '$'+Number(n||0).toLocaleString(undefined,{minimumFractionDigits:0,maximumFractionDigits:2})}
  function e(s){var d=document.createElement('div');d.textContent=String(s||'');return d.innerHTML}
