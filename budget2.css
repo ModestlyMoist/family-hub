@@ -158,3 +158,6 @@
 
 /* Activity drilldown v279b */
 .mb-activity{border:0;background:transparent;padding:4px 2px;min-height:0;text-align:right;cursor:pointer;font:inherit;color:inherit}.mb-activity:hover{text-decoration:underline}.btx-activity-total{display:flex;justify-content:space-between;align-items:center;padding:10px 2px;border-bottom:1px solid var(--line)}.btx-activity-total span{font-size:.7rem;color:var(--muted)}.btx-detail-list{display:grid}.btx-detail{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 2px;border-bottom:1px solid var(--line)}.btx-detail span{display:grid;min-width:0}.btx-detail small{font-size:.63rem;color:var(--muted)}.btx-detail strong{white-space:nowrap}@media(max-width:520px){.mb-activity{font-size:.61rem!important}.btx-detail{padding:8px 1px}.btx-detail b,.btx-detail strong{font-size:.7rem}.btx-detail small{font-size:.54rem}}
+
+/* Transaction edit + transfers v281a */
+.btx-actions{display:flex;gap:6px}.btx-row{width:100%;background:transparent;border-left:0;border-right:0;border-bottom:0;border-radius:0;text-align:left;color:inherit;cursor:pointer}.btx-row:hover{background:rgba(255,255,255,.025)}@media(max-width:520px){.btx-actions{gap:4px}.btx-actions button{padding:6px!important;font-size:.58rem!important}}
