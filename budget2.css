@@ -152,3 +152,6 @@
  .mb-assigned,.mb-available,.mb-row>span{font-size:.61rem!important;padding:3px 1px!important;min-width:0!important}
  .mb-fill{font-size:.5rem!important;padding:3px 4px!important;min-width:0!important}
 }
+
+/* Transactions v279a */
+.btx-wrap{margin:12px 0 0;border:1px solid var(--line);border-radius:14px;padding:12px}.btx-head{display:flex;align-items:center;justify-content:space-between;gap:10px}.btx-head h3{margin:0}.btx-list{display:grid;margin-top:8px}.btx-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 2px;border-top:1px solid var(--line)}.btx-row span{display:grid;min-width:0}.btx-row small,.btx-empty span{font-size:.63rem;color:var(--muted)}.btx-row strong{white-space:nowrap}.btx-empty{display:grid;gap:3px;padding:12px 2px}@media(max-width:520px){.btx-wrap{padding:9px;margin-top:8px}.btx-head h3{font-size:.9rem}.btx-head .meta{display:none}.btx-head button{padding:6px 8px;min-height:0;font-size:.65rem}.btx-row{padding:7px 1px}.btx-row b{font-size:.7rem}.btx-row small{font-size:.53rem}.btx-row strong{font-size:.7rem}}
