@@ -4,3 +4,5 @@
 #app [data-dashboard-tile=tasks] .home-task-row b{font-size:14px!important;line-height:1.4}#app [data-dashboard-tile=tasks] .home-task-row .meta{font-size:12px!important}#app .weather[hidden]{display:none!important}#app .weather-row:has(.weather[hidden]){grid-template-columns:1fr!important}
 
 #app [data-dashboard-tile=budget-snapshot]{grid-column:1/-1}.dt-stats{grid-template-columns:repeat(4,minmax(0,1fr))}@media(max-width:700px){.dt-stats{grid-template-columns:1fr}}
+
+.dt-library-row>label,.dt-choices label,.dt-global>label:first-child{min-height:44px}
