@@ -45,3 +45,6 @@
 
 /* Bucket funding progress v275b */
 .mb-needline{display:flex!important;align-items:center;gap:6px;flex-wrap:nowrap;white-space:nowrap}.mb-progress{display:inline-block;width:44px;height:7px;border-radius:999px;overflow:hidden;background:color-mix(in srgb,currentColor 14%,transparent);flex:0 0 44px}.mb-progress i{display:block;height:100%;border-radius:inherit}.mb-progress.under i{background:#c84d4d}.mb-progress.funded i{background:#3f8f5f}.mb-progress.funded{background:color-mix(in srgb,#3f8f5f 18%,transparent)}
+
+/* Funding bars resilience v277b */
+.mb-needline .mb-progress{display:inline-block!important;width:44px!important;height:7px!important;min-width:44px;overflow:hidden;border-radius:999px;background:rgba(180,70,70,.24)!important}.mb-needline .mb-progress i{display:block!important;height:100%!important}.mb-needline .mb-progress.under i{background:#c84d4d!important}.mb-needline .mb-progress.funded,.mb-needline .mb-progress.funded i{background:#3f8f5f!important}
