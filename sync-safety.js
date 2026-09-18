@@ -25,6 +25,13 @@
     // When both devices changed the exact same scalar/array, preserve the change being saved now.
     return clone(local);
   }
+  function mergeById(base,local,remote){
+    let b=Array.isArray(base)?base:[],l=Array.isArray(local)?local:[],r=Array.isArray(remote)?remote:[],out=[],seen=new Set(),byB=new Map(b.filter(x=>x&&x.id!=null).map(x=>[String(x.id),x])),byL=new Map(l.filter(x=>x&&x.id!=null).map(x=>[String(x.id),x])),byR=new Map(r.filter(x=>x&&x.id!=null).map(x=>[String(x.id),x]));
+    [...l,...r,...b].forEach(x=>{if(!x||x.id==null)return;let id=String(x.id);if(seen.has(id))return;seen.add(id);let bv=byB.get(id),lv=byL.get(id),rv=byR.get(id);if(lv&&rv)out.push(merge3(bv,lv,rv));else if(lv&&!rv){if(!bv||!same(lv,bv))out.push(clone(lv))}else if(rv&&!lv){if(!bv||!same(rv,bv))out.push(clone(rv))}});return out;
+  }
+  function protectTransactionArrays(base,local,remote,merged){
+    try{let b=base?.budget?.transactions,l=local?.budget?.transactions,r=remote?.budget?.transactions;if(!Array.isArray(l)&&!Array.isArray(r))return merged;merged.budget=merged.budget||{};merged.budget.transactions=mergeById(b,l,r)}catch(e){}return merged;
+  }
   function rememberBackup(v){try{if(v&&Object.keys(v).length)localStorage.setItem(BACKUP_KEY,JSON.stringify({savedAt:new Date().toISOString(),data:v}))}catch(e){}}
   function setBase(v){try{localStorage.setItem(BASE_KEY,JSON.stringify(v||{}))}catch(e){}}
   function getBase(){try{return JSON.parse(localStorage.getItem(BASE_KEY)||'{}')}catch(e){return {}}}
@@ -47,7 +54,7 @@
       let headers=new Headers(init.headers||{}),latest=await nativeFetch(url,{method:'GET',headers});
       if(latest.ok){let j=await latest.json();if(j?.data&&Object.keys(j.data).length)remote=j.data}
     }catch(e){}
-    let merged=merge3(base,local,remote);
+    let merged=protectTransactionArrays(base,local,remote,merge3(base,local,remote));
     rememberBackup(local);
     try{
       let res=await nativeFetch(input,{...init,body:JSON.stringify({...outgoing,data:merged})});
