@@ -12,7 +12,7 @@
     return '<div class="bpt-card'+(current?' current':'')+'"><div class="bpt-top"><span>'+label+'</span><b>'+fmt(start)+'</b></div><div class="bpt-income"><strong>'+money(income)+'</strong><small>take-home</small></div><div class="bpt-items">'+items+'</div><div class="bpt-foot"><span>Bills</span><b>'+money(total)+'</b></div></div>'
   }
   function render(){
-    var page=document.querySelector('.budget2-page');if(!page)return;var existing=page.querySelector('.bpt-wrap');if(existing)existing.remove();
+    var page=document.querySelector('.budget2-page');if(!page)return;page.querySelectorAll('.bpt-wrap').forEach(function(x){x.remove()});
     var budget=(typeof data!=='undefined'&&data.budget)||{},anchor=budget.nextPayday;
     if(!anchor){var setup=document.createElement('div');setup.className='bpt-wrap bpt-empty';setup.innerHTML='<div class="bpt-head"><div><h3>Paycheck timeline</h3><span class="meta">Set your paycheck amount and next payday to map bills across paychecks.</span></div><button type="button" id="bptSetup">Set up paycheck</button></div>';var grid=page.querySelector('.budget2-grid');if(grid)page.insertBefore(setup,grid);else page.appendChild(setup);setup.querySelector('#bptSetup').onclick=function(){var b=document.querySelector('#budgetSetup');if(b)b.click()};return;}var step=budget.payFrequency==='weekly'?7:14,today=(typeof vegasToday==='function'?vegasToday():new Date().toISOString().slice(0,10)),next=anchor;
     while(next<today)next=add(next,step);
@@ -22,5 +22,5 @@
     var grid=page.querySelector('.budget2-grid');if(grid)page.insertBefore(wrap,grid);else page.appendChild(wrap)
   }
   document.addEventListener('click',function(e){if(e.target.closest&&e.target.closest('[data-action="money"]')){setTimeout(render,0);setTimeout(render,120)}});
-  window.addEventListener('budget2:render',render);
+  window.addEventListener('budget2:render',render);window.addEventListener('budgetLayout:refresh',function(){setTimeout(render,0)});
 })();
