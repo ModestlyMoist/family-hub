@@ -1,0 +1,28 @@
+name: Supabase Database Keepalive
+
+on:
+  schedule:
+    - cron: '17 3,11,19 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  keepalive:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check Supabase database activity
+        env:
+          DATABASE_URL: ${{ secrets.SUPABASE_DATABASE_URL }}
+        run: |
+          set -euo pipefail
+          if [ -z "$DATABASE_URL" ]; then
+            echo "::error::Missing SUPABASE_DATABASE_URL GitHub Actions secret."
+            exit 1
+          fi
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq postgresql-client >/dev/null
+          psql "$DATABASE_URL" -X -v ON_ERROR_STOP=1 -tAc "SELECT CURRENT_TIMESTAMP;"
+          echo "Supabase database query completed successfully."
